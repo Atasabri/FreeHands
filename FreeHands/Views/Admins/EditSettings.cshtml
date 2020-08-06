@@ -1,0 +1,75 @@
+﻿@model FreeHands.Models.Datum
+@{
+    ViewBag.Title = "تعديل اعدادات المستخدمين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <form action="~/Admins/EditSettings" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-2"> (%) </div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.TaxForVisa, new { htmlAttributes = new { @class = "form-control",required= "required" } })
+                    @Html.ValidationMessageFor(model => model.TaxForVisa, "", new { @class = "text-danger" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> ضريبة الدفع الاكتروني </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"> (%) </div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })                </div>
+                <label for="" class="col-sm-2 col-form-label"> الضريبة الخاصة بالشركة </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Delivery, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Delivery, "", new { @class = "text-danger" })
+                                </div>
+                <label for="" class="col-sm-2 col-form-label"> دليفري </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <label class="switch">
+                        @if (Model.AllowKnownNumber)
+                        {
+                            <input type="checkbox" name="AllowKnownNumber" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="AllowKnownNumber">
+                        }
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> تفعيل الرقم المعلوم </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <label class="switch">
+                        @if (Model.AllowVisa)
+                        {
+                            <input type="checkbox" name="AllowVisa" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="AllowVisa">
+                        }
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> تفعيل  الدفع الالكتروني  </label>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <input class="btn btn-success" type="submit" value="حفظ">
+                </div>
+            </div>
+        </form>
+    </section>
+    </section>

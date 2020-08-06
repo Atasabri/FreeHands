@@ -1,0 +1,88 @@
+﻿@model IEnumerable<FreeHands.Models.User>
+
+@{
+    ViewBag.Title = "المستخدمين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        الاشخاص
+                    </div>
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> الهاتف </td>
+                                <td>الدولة</td>
+                                <td>متاح</td>
+                                <td> حذف </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> الهاتف </td>
+                                <td>الدولة</td>
+                                <td>متاح</td>
+                                <td> حذف </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@(item.ID)">
+                                    <td>
+                                        @item.Phone
+                                    </td>
+                                    <td>@item.Country.Name</td>
+                                    <td>
+                                       @Html.DisplayFor(modelItem => item.IsActive)
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            } 
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm(' هل تريد مسح هذا المستخدم ؟؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Users")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>

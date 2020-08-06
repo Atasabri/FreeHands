@@ -1,0 +1,122 @@
+﻿@model IEnumerable<FreeHands.Models.Category>
+
+@{
+    ViewBag.Title = "الانواع";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    @if (ViewBag.error != null)
+                    {
+                        <div class="panel-heading" style="margin:5px;">
+                            <span style="color:red">@ViewBag.error</span>
+                        </div>
+                    }
+                    <div class="panel-heading" style="margin:5px;">
+                        الانواع
+                        <div class="col-sm-5 m-b-xs">
+                            <button class="btn btn-info" id="open">
+                                <i class="fa fa-plus-circle"></i>
+                                اضافة
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> النوع </td>
+                                <td>عدد المنجات</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                               
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> النوع </td>
+                                <td>عدد المنجات</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@(item.ID)">
+                                    <td>@item.Name</td>
+                                    <td>@item.Products.Count</td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+                                        <a href="~/Categories/Edit/@(item.ID)" title="تعديل" class="btn btn-primary">
+                                            <i class="fa fa-cog "></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+<div id="popup" class="modal">
+    <div class="modal-content">
+        <div class="close">
+            &times;
+        </div>
+        <form method="post" action="~/Categories/Create">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" name="Name" required>
+                </div>
+                <label for="" class="col-sm-1 col-form-label"> النوع  </label>
+            </div>
+            <div class="form-group row text-center">
+                <input class="btn btn-primary" type="submit" value="اضافة">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('سيتم مسح المنتجات الخاصة بهذا النوع .. هل تريد مسح هذا النوع بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Categories")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>

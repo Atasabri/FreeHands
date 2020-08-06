@@ -1,0 +1,1724 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FreeHandsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsManager" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Country_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contacts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Data">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TaxForVisa" Type="float" Nullable="false" />
+          <Property Name="Tax" Type="float" Nullable="false" />
+          <Property Name="Delivery" Type="int" Nullable="false" />
+          <Property Name="AllowKnownNumber" Type="bit" Nullable="false" />
+          <Property Name="AllowVisa" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Drivers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Company_ID" Type="int" />
+          <Property Name="Visible" Type="bit" Nullable="false" />
+          <Property Name="City_ID" Type="int" Nullable="false" />
+          <Property Name="Country_ID" Type="int" Nullable="false" />
+          <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Offers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Provider_ID" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OptionName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="OrderOptions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order_ID" Type="int" Nullable="false" />
+          <Property Name="Option_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="IsOrderd" Type="bit" Nullable="false" />
+          <Property Name="IsUseVisa" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Driver_ID" Type="int" />
+          <Property Name="Offer_ID" Type="int" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Accepted" Type="bit" Nullable="false" />
+          <Property Name="Ready" Type="bit" Nullable="false" />
+          <Property Name="ISArrivedToUser" Type="bit" Nullable="false" />
+          <Property Name="UserLat" Type="float" Nullable="false" />
+          <Property Name="TaxForVisa" Type="float" />
+          <Property Name="Total" Type="float" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="Delivery" Type="int" />
+          <Property Name="DateTimeNeeded" Type="datetime" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="UserLog" Type="float" Nullable="false" />
+          <Property Name="ProblemInArriveToUser" Type="bit" Nullable="false" />
+          <Property Name="Price" Type="float" />
+        </EntityType>
+        <EntityType Name="Product_Rates">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rate" Type="float" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Avaiable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Cat_ID" Type="int" Nullable="false" />
+          <Property Name="Provider_ID" Type="int" Nullable="false" />
+          <Property Name="TimeToFinish" Type="int" Nullable="false" />
+          <Property Name="Visible" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Provider_Rates">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rate" Type="float" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="Provider_ID" Type="int" Nullable="false" />
+          <Property Name="Avaiable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Providers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TradeName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Lat" Type="float" Nullable="false" />
+          <Property Name="Log" Type="float" Nullable="false" />
+          <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsAvaiable" Type="bit" Nullable="false" />
+          <Property Name="AllowVisa" Type="bit" Nullable="false" />
+          <Property Name="IsExcelent" Type="bit" Nullable="false" />
+          <Property Name="KnownNumber" Type="nvarchar(max)" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="City_ID" Type="int" Nullable="false" />
+          <Property Name="Country_ID" Type="int" Nullable="false" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="Admin_Accept" Type="bit" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar(max)" />
+          <Property Name="BankName" Type="nvarchar(max)" />
+          <Property Name="IPan" Type="nvarchar(max)" />
+          <Property Name="SwiftCode" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Subscribers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Task" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FromManager" Type="int" Nullable="false" />
+          <Property Name="ToAdmin" Type="int" Nullable="false" />
+          <Property Name="Finished" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="City_ID" Type="int" Nullable="false" />
+          <Property Name="Country_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__City__Country_ID__24E777C3">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Drivers__City_ID__38EE7070">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Drivers" Type="Self.Drivers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Drivers">
+              <PropertyRef Name="City_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Drivers__Company__65F62111">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Drivers" Type="Self.Drivers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Drivers">
+              <PropertyRef Name="Company_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Drivers__Country__39E294A9">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Drivers" Type="Self.Drivers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Drivers">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Offers__Product___1CF15040">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Offers" Type="Self.Offers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Offers">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Offers__Provider__72C60C4A">
+          <End Role="Providers" Type="Self.Providers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Offers" Type="Self.Offers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Offers">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Options__Product__2A4B4B5E">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Options" Type="Self.Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderOpti__Option__03F0984C">
+          <End Role="Options" Type="Self.Options" Multiplicity="1" />
+          <End Role="OrderOptions" Type="Self.OrderOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderOptions">
+              <PropertyRef Name="Option_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderOpti__Order__03F0984C">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OrderOptions" Type="Self.OrderOptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderOptions">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Driver_I__0C50D423">
+          <End Role="Drivers" Type="Self.Drivers" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drivers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Driver_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__offer__0C50D423">
+          <End Role="Offers" Type="Self.Offers" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Offer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Product___35BCFE0A">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__User_ID__693CA210">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_R__Produ__276EDEB3">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product_Rates" Type="Self.Product_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product_Rates">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_R__User___68487DD7">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product_Rates" Type="Self.Product_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product_Rates">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Cat_ID__1920BF5C">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="Cat_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Provider__1920BF5C">
+          <End Role="Providers" Type="Self.Providers" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Provider___Provi__73BA3083">
+          <End Role="Providers" Type="Self.Providers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Provider_Rates" Type="Self.Provider_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Provider_Rates">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Provider___User___6754599E">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Provider_Rates" Type="Self.Provider_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Provider_Rates">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Providers__City___3AD6B8E2">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Providers" Type="Self.Providers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Providers">
+              <PropertyRef Name="City_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Providers__Count__3BCADD1B">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Providers" Type="Self.Providers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Providers">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tasks__FromManager__3E52440B">
+          <End Role="Admins" Type="Self.Admins" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admins">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="FromManager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tasks__ToAdmin__3E52440B">
+          <End Role="Admins" Type="Self.Admins" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admins">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ToAdmin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__City_ID__370627FE">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="City_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__Country_I__37FA4C37">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="RateProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Rate" Type="float" Mode="In" />
+          <Parameter Name="Product_ID" Type="int" Mode="In" />
+          <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="User_ID" Type="int" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="RateProvider" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Rate" Type="float" Mode="In" />
+          <Parameter Name="User_ID" Type="int" Mode="In" />
+          <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Provider_ID" Type="int" Mode="In" />
+          <Parameter Name="ReturnValue" Type="int" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="FreeHandsModelStoreContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contacts" EntityType="Self.Contacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Data" EntityType="Self.Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Drivers" EntityType="Self.Drivers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Offers" EntityType="Self.Offers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderOptions" EntityType="Self.OrderOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Rates" EntityType="Self.Product_Rates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provider_Rates" EntityType="Self.Provider_Rates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Providers" EntityType="Self.Providers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subscribers" EntityType="Self.Subscribers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__City__Country_ID__24E777C3" Association="Self.FK__City__Country_ID__24E777C3">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Drivers__City_ID__38EE7070" Association="Self.FK__Drivers__City_ID__38EE7070">
+            <End Role="City" EntitySet="City" />
+            <End Role="Drivers" EntitySet="Drivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Drivers__Company__65F62111" Association="Self.FK__Drivers__Company__65F62111">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Drivers" EntitySet="Drivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Drivers__Country__39E294A9" Association="Self.FK__Drivers__Country__39E294A9">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Drivers" EntitySet="Drivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Offers__Product___1CF15040" Association="Self.FK__Offers__Product___1CF15040">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Offers" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Offers__Provider__72C60C4A" Association="Self.FK__Offers__Provider__72C60C4A">
+            <End Role="Providers" EntitySet="Providers" />
+            <End Role="Offers" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Options__Product__2A4B4B5E" Association="Self.FK__Options__Product__2A4B4B5E">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderOpti__Option__03F0984C" Association="Self.FK__OrderOpti__Option__03F0984C">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="OrderOptions" EntitySet="OrderOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderOpti__Order__03F0984C" Association="Self.FK__OrderOpti__Order__03F0984C">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderOptions" EntitySet="OrderOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Driver_I__0C50D423" Association="Self.FK__Orders__Driver_I__0C50D423">
+            <End Role="Drivers" EntitySet="Drivers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__offer__0C50D423" Association="Self.FK__Orders__offer__0C50D423">
+            <End Role="Offers" EntitySet="Offers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Product___35BCFE0A" Association="Self.FK__Orders__Product___35BCFE0A">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__User_ID__693CA210" Association="Self.FK__Orders__User_ID__693CA210">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_R__Produ__276EDEB3" Association="Self.FK__Product_R__Produ__276EDEB3">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Rates" EntitySet="Product_Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_R__User___68487DD7" Association="Self.FK__Product_R__User___68487DD7">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Product_Rates" EntitySet="Product_Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Cat_ID__1920BF5C" Association="Self.FK__Products__Cat_ID__1920BF5C">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Provider__1920BF5C" Association="Self.FK__Products__Provider__1920BF5C">
+            <End Role="Providers" EntitySet="Providers" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Provider___Provi__73BA3083" Association="Self.FK__Provider___Provi__73BA3083">
+            <End Role="Providers" EntitySet="Providers" />
+            <End Role="Provider_Rates" EntitySet="Provider_Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Provider___User___6754599E" Association="Self.FK__Provider___User___6754599E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Provider_Rates" EntitySet="Provider_Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Providers__City___3AD6B8E2" Association="Self.FK__Providers__City___3AD6B8E2">
+            <End Role="City" EntitySet="City" />
+            <End Role="Providers" EntitySet="Providers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Providers__Count__3BCADD1B" Association="Self.FK__Providers__Count__3BCADD1B">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Providers" EntitySet="Providers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tasks__FromManager__3E52440B" Association="Self.FK__Tasks__FromManager__3E52440B">
+            <End Role="Admins" EntitySet="Admins" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tasks__ToAdmin__3E52440B" Association="Self.FK__Tasks__ToAdmin__3E52440B">
+            <End Role="Admins" EntitySet="Admins" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__City_ID__370627FE" Association="Self.FK__Users__City_ID__370627FE">
+            <End Role="City" EntitySet="City" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__Country_I__37FA4C37" Association="Self.FK__Users__Country_I__37FA4C37">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FreeHandsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsManager" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK__Tasks__FromManager__3E52440B" FromRole="Admins" ToRole="Tasks" />
+          <NavigationProperty Name="Tasks1" Relationship="Self.FK__Tasks__ToAdmin__3E52440B" FromRole="Admins" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__Products__Cat_ID__1920BF5C" FromRole="Categories" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Country_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK__City__Country_ID__1CDC41A7" FromRole="City" ToRole="Country" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Users__City_ID__1DD065E0" FromRole="City" ToRole="Users" />
+          <NavigationProperty Name="Drivers" Relationship="FreeHandsModel.FK__Drivers__City_ID__38EE7070" FromRole="City" ToRole="Driver" />
+          <NavigationProperty Name="Providers" Relationship="FreeHandsModel.FK__Providers__City___3AD6B8E2" FromRole="City" ToRole="Provider" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Drivers" Relationship="Self.FK__Drivers__Company__65F62111" FromRole="Companies" ToRole="Drivers" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK__City__Country_ID__1CDC41A7" FromRole="Country" ToRole="City" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Users__Country_I__1EC48A19" FromRole="Country" ToRole="Users" />
+          <NavigationProperty Name="Drivers" Relationship="FreeHandsModel.FK__Drivers__Country__39E294A9" FromRole="Country" ToRole="Driver" />
+          <NavigationProperty Name="Providers" Relationship="FreeHandsModel.FK__Providers__Count__3BCADD1B" FromRole="Country" ToRole="Provider" />
+        </EntityType>
+        <EntityType Name="Datum">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TaxForVisa" Type="Double" Nullable="false" />
+          <Property Name="Tax" Type="Double" Nullable="false" />
+          <Property Name="Delivery" Type="Int32" Nullable="false" />
+          <Property Name="AllowKnownNumber" Type="Boolean" Nullable="false" />
+          <Property Name="AllowVisa" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Company_ID" Type="Int32" />
+          <Property Name="Visible" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK__Drivers__Company__65F62111" FromRole="Drivers" ToRole="Companies" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Driver_I__0C50D423" FromRole="Drivers" ToRole="Orders" />
+          <Property Name="City_ID" Type="Int32" Nullable="false" />
+          <Property Name="Country_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City1" Relationship="FreeHandsModel.FK__Drivers__City_ID__38EE7070" FromRole="Driver" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="FreeHandsModel.FK__Drivers__Country__39E294A9" FromRole="Driver" ToRole="Country" />
+          <Property Name="Location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Offer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Provider_ID" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Offers__Product___1CF15040" FromRole="Offers" ToRole="Products" />
+          <NavigationProperty Name="Provider" Relationship="Self.FK__Offers__Provider__72C60C4A" FromRole="Offers" ToRole="Providers" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__offer__0C50D423" FromRole="Offers" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Option">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Options__Product__2A4B4B5E" FromRole="Options" ToRole="Products" />
+          <NavigationProperty Name="OrderOptions" Relationship="Self.FK__OrderOpti__Option__03F0984C" FromRole="Options" ToRole="OrderOptions" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="OrderOption">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_ID" Type="Int32" Nullable="false" />
+          <Property Name="Option_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Option" Relationship="Self.FK__OrderOpti__Option__03F0984C" FromRole="OrderOptions" ToRole="Options" />
+          <NavigationProperty Name="Order" Relationship="Self.FK__OrderOpti__Order__03F0984C" FromRole="OrderOptions" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="IsOrderd" Type="Boolean" Nullable="false" />
+          <Property Name="IsUseVisa" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Driver_ID" Type="Int32" />
+          <Property Name="Offer_ID" Type="Int32" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Accepted" Type="Boolean" Nullable="false" />
+          <Property Name="Ready" Type="Boolean" Nullable="false" />
+          <Property Name="ISArrivedToUser" Type="Boolean" Nullable="false" />
+          <Property Name="UserLat" Type="Double" Nullable="false" />
+          <Property Name="TaxForVisa" Type="Double" />
+          <Property Name="Total" Type="Double" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="Delivery" Type="Int32" />
+          <Property Name="DateTimeNeeded" Type="DateTime" Precision="3" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserLog" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Driver" Relationship="Self.FK__Orders__Driver_I__0C50D423" FromRole="Orders" ToRole="Drivers" />
+          <NavigationProperty Name="Offer" Relationship="Self.FK__Orders__offer__0C50D423" FromRole="Orders" ToRole="Offers" />
+          <NavigationProperty Name="OrderOptions" Relationship="Self.FK__OrderOpti__Order__03F0984C" FromRole="Orders" ToRole="OrderOptions" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Orders__Product___35BCFE0A" FromRole="Orders" ToRole="Products" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Orders__User_ID__693CA210" FromRole="Orders" ToRole="Users" />
+          <Property Name="ProblemInArriveToUser" Type="Boolean" Nullable="false" />
+          <Property Name="Price" Type="Double" />
+        </EntityType>
+        <EntityType Name="Product_Rates">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rate" Type="Double" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Avaiable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Product_R__Produ__276EDEB3" FromRole="Product_Rates" ToRole="Products" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Product_R__User___68487DD7" FromRole="Product_Rates" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Cat_ID" Type="Int32" Nullable="false" />
+          <Property Name="Provider_ID" Type="Int32" Nullable="false" />
+          <Property Name="TimeToFinish" Type="Int32" Nullable="false" />
+          <Property Name="Visible" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Products__Cat_ID__1920BF5C" FromRole="Products" ToRole="Categories" />
+          <NavigationProperty Name="Offers" Relationship="Self.FK__Offers__Product___1CF15040" FromRole="Products" ToRole="Offers" />
+          <NavigationProperty Name="Options" Relationship="Self.FK__Options__Product__2A4B4B5E" FromRole="Products" ToRole="Options" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Product___35BCFE0A" FromRole="Products" ToRole="Orders" />
+          <NavigationProperty Name="Product_Rates" Relationship="Self.FK__Product_R__Produ__276EDEB3" FromRole="Products" ToRole="Product_Rates" />
+          <NavigationProperty Name="Provider" Relationship="Self.FK__Products__Provider__1920BF5C" FromRole="Products" ToRole="Providers" />
+        </EntityType>
+        <EntityType Name="Provider_Rates">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rate" Type="Double" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="Provider_ID" Type="Int32" Nullable="false" />
+          <Property Name="Avaiable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Provider" Relationship="Self.FK__Provider___Provi__73BA3083" FromRole="Provider_Rates" ToRole="Providers" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Provider___User___6754599E" FromRole="Provider_Rates" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Provider">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TradeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Log" Type="Double" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsAvaiable" Type="Boolean" Nullable="false" />
+          <Property Name="AllowVisa" Type="Boolean" Nullable="false" />
+          <Property Name="IsExcelent" Type="Boolean" Nullable="false" />
+          <Property Name="KnownNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Double" />
+          <NavigationProperty Name="Offers" Relationship="Self.FK__Offers__Provider__72C60C4A" FromRole="Providers" ToRole="Offers" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__Products__Provider__1920BF5C" FromRole="Providers" ToRole="Products" />
+          <NavigationProperty Name="Provider_Rates" Relationship="Self.FK__Provider___Provi__73BA3083" FromRole="Providers" ToRole="Provider_Rates" />
+          <Property Name="City_ID" Type="Int32" Nullable="false" />
+          <Property Name="Country_ID" Type="Int32" Nullable="false" />
+          <Property Name="Currency" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="FreeHandsModel.FK__Providers__City___3AD6B8E2" FromRole="Provider" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="FreeHandsModel.FK__Providers__Count__3BCADD1B" FromRole="Provider" ToRole="Country" />
+          <Property Name="Admin_Accept" Type="Boolean" Nullable="false" />
+          <Property Name="AccountNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BankName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IPan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SwiftCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Subscriber">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Task1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FromManager" Type="Int32" Nullable="false" />
+          <Property Name="ToAdmin" Type="Int32" Nullable="false" />
+          <Property Name="Finished" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Admin" Relationship="Self.FK__Tasks__FromManager__3E52440B" FromRole="Tasks" ToRole="Admins" />
+          <NavigationProperty Name="Admin1" Relationship="Self.FK__Tasks__ToAdmin__3E52440B" FromRole="Tasks" ToRole="Admins" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="City_ID" Type="Int32" Nullable="false" />
+          <Property Name="Country_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK__Users__City_ID__1DD065E0" FromRole="Users" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="Self.FK__Users__Country_I__1EC48A19" FromRole="Users" ToRole="Country" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__User_ID__693CA210" FromRole="Users" ToRole="Orders" />
+          <NavigationProperty Name="Product_Rates" Relationship="Self.FK__Product_R__User___68487DD7" FromRole="Users" ToRole="Product_Rates" />
+          <NavigationProperty Name="Provider_Rates" Relationship="Self.FK__Provider___User___6754599E" FromRole="Users" ToRole="Provider_Rates" />
+        </EntityType>
+        <Association Name="FK__Tasks__FromManager__3E52440B">
+          <End Role="Admins" Type="Self.Admin" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admins">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="FromManager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tasks__ToAdmin__3E52440B">
+          <End Role="Admins" Type="Self.Admin" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admins">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ToAdmin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Cat_ID__1920BF5C">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="Cat_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__City__Country_ID__1CDC41A7">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__City_ID__1DD065E0">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="City_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Drivers__Company__65F62111">
+          <End Role="Companies" Type="Self.Company" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Drivers" Type="Self.Driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Drivers">
+              <PropertyRef Name="Company_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__Country_I__1EC48A19">
+          <End Role="Country" Type="Self.Country" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Driver_I__0C50D423">
+          <End Role="Drivers" Type="Self.Driver" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drivers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Driver_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Offers__Product___1CF15040">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Offers" Type="Self.Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Offers">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Offers__Provider__72C60C4A">
+          <End Role="Providers" Type="Self.Provider" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Offers" Type="Self.Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Offers">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__offer__0C50D423">
+          <End Role="Offers" Type="Self.Offer" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Offer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Options__Product__2A4B4B5E">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Options" Type="Self.Option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Options">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderOpti__Option__03F0984C">
+          <End Role="Options" Type="Self.Option" Multiplicity="1" />
+          <End Role="OrderOptions" Type="Self.OrderOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Options">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderOptions">
+              <PropertyRef Name="Option_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderOpti__Order__03F0984C">
+          <End Role="Orders" Type="Self.Order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OrderOptions" Type="Self.OrderOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderOptions">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Product___35BCFE0A">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__User_ID__693CA210">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_R__Produ__276EDEB3">
+          <End Role="Products" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product_Rates" Type="Self.Product_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product_Rates">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_R__User___68487DD7">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product_Rates" Type="Self.Product_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product_Rates">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Provider__1920BF5C">
+          <End Role="Providers" Type="Self.Provider" Multiplicity="1" />
+          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Provider___Provi__73BA3083">
+          <End Role="Providers" Type="Self.Provider" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Provider_Rates" Type="Self.Provider_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Provider_Rates">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Provider___User___6754599E">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Provider_Rates" Type="Self.Provider_Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Provider_Rates">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Data" EntityType="Self.Datum" />
+          <EntitySet Name="Drivers" EntityType="Self.Driver" />
+          <EntitySet Name="Offers" EntityType="Self.Offer" />
+          <EntitySet Name="Options" EntityType="Self.Option" />
+          <EntitySet Name="OrderOptions" EntityType="Self.OrderOption" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Product_Rates" EntityType="Self.Product_Rates" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Provider_Rates" EntityType="Self.Provider_Rates" />
+          <EntitySet Name="Providers" EntityType="Self.Provider" />
+          <EntitySet Name="Subscribers" EntityType="Self.Subscriber" />
+          <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Tasks__FromManager__3E52440B" Association="Self.FK__Tasks__FromManager__3E52440B">
+            <End Role="Admins" EntitySet="Admins" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tasks__ToAdmin__3E52440B" Association="Self.FK__Tasks__ToAdmin__3E52440B">
+            <End Role="Admins" EntitySet="Admins" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Cat_ID__1920BF5C" Association="Self.FK__Products__Cat_ID__1920BF5C">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__City__Country_ID__1CDC41A7" Association="Self.FK__City__Country_ID__1CDC41A7">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="City" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__City_ID__1DD065E0" Association="Self.FK__Users__City_ID__1DD065E0">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Drivers__Company__65F62111" Association="Self.FK__Drivers__Company__65F62111">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Drivers" EntitySet="Drivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__Country_I__1EC48A19" Association="Self.FK__Users__Country_I__1EC48A19">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Driver_I__0C50D423" Association="Self.FK__Orders__Driver_I__0C50D423">
+            <End Role="Drivers" EntitySet="Drivers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Offers__Product___1CF15040" Association="Self.FK__Offers__Product___1CF15040">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Offers" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Offers__Provider__72C60C4A" Association="Self.FK__Offers__Provider__72C60C4A">
+            <End Role="Providers" EntitySet="Providers" />
+            <End Role="Offers" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__offer__0C50D423" Association="Self.FK__Orders__offer__0C50D423">
+            <End Role="Offers" EntitySet="Offers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Options__Product__2A4B4B5E" Association="Self.FK__Options__Product__2A4B4B5E">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Options" EntitySet="Options" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderOpti__Option__03F0984C" Association="Self.FK__OrderOpti__Option__03F0984C">
+            <End Role="Options" EntitySet="Options" />
+            <End Role="OrderOptions" EntitySet="OrderOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderOpti__Order__03F0984C" Association="Self.FK__OrderOpti__Order__03F0984C">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderOptions" EntitySet="OrderOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Product___35BCFE0A" Association="Self.FK__Orders__Product___35BCFE0A">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__User_ID__693CA210" Association="Self.FK__Orders__User_ID__693CA210">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_R__Produ__276EDEB3" Association="Self.FK__Product_R__Produ__276EDEB3">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Rates" EntitySet="Product_Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_R__User___68487DD7" Association="Self.FK__Product_R__User___68487DD7">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Product_Rates" EntitySet="Product_Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Provider__1920BF5C" Association="Self.FK__Products__Provider__1920BF5C">
+            <End Role="Providers" EntitySet="Providers" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Provider___Provi__73BA3083" Association="Self.FK__Provider___Provi__73BA3083">
+            <End Role="Providers" EntitySet="Providers" />
+            <End Role="Provider_Rates" EntitySet="Provider_Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Provider___User___6754599E" Association="Self.FK__Provider___User___6754599E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Provider_Rates" EntitySet="Provider_Rates" />
+          </AssociationSet>
+          <FunctionImport Name="RateProduct">
+            <Parameter Name="Rate" Mode="In" Type="Double" />
+            <Parameter Name="Product_ID" Mode="In" Type="Int32" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+            <Parameter Name="User_ID" Mode="In" Type="Int32" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RateProvider">
+            <Parameter Name="Rate" Mode="In" Type="Double" />
+            <Parameter Name="User_ID" Mode="In" Type="Int32" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+            <Parameter Name="Provider_ID" Mode="In" Type="Int32" />
+            <Parameter Name="ReturnValue" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <AssociationSet Name="FK__Drivers__City_ID__38EE7070" Association="FreeHandsModel.FK__Drivers__City_ID__38EE7070">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Driver" EntitySet="Drivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Providers__City___3AD6B8E2" Association="FreeHandsModel.FK__Providers__City___3AD6B8E2">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Provider" EntitySet="Providers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Drivers__Country__39E294A9" Association="FreeHandsModel.FK__Drivers__Country__39E294A9">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Driver" EntitySet="Drivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Providers__Count__3BCADD1B" Association="FreeHandsModel.FK__Providers__Count__3BCADD1B">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Provider" EntitySet="Providers" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK__Drivers__City_ID__38EE7070">
+          <End Type="FreeHandsModel.City" Role="City" Multiplicity="1" />
+          <End Type="FreeHandsModel.Driver" Role="Driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Driver">
+              <PropertyRef Name="City_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Providers__City___3AD6B8E2">
+          <End Type="FreeHandsModel.City" Role="City" Multiplicity="1" />
+          <End Type="FreeHandsModel.Provider" Role="Provider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Provider">
+              <PropertyRef Name="City_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Drivers__Country__39E294A9">
+          <End Type="FreeHandsModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="FreeHandsModel.Driver" Role="Driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Driver">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Providers__Count__3BCADD1B">
+          <End Type="FreeHandsModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="FreeHandsModel.Provider" Role="Provider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Provider">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FreeHandsModelStoreContainer" CdmEntityContainer="DB">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="FreeHandsModel.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsManager" ColumnName="IsManager" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="FreeHandsModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="FreeHandsModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="FreeHandsModel.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="FreeHandsModel.Contact">
+              <MappingFragment StoreEntitySet="Contacts">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="FreeHandsModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Data">
+            <EntityTypeMapping TypeName="FreeHandsModel.Datum">
+              <MappingFragment StoreEntitySet="Data">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaxForVisa" ColumnName="TaxForVisa" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Delivery" ColumnName="Delivery" />
+                <ScalarProperty Name="AllowKnownNumber" ColumnName="AllowKnownNumber" />
+                <ScalarProperty Name="AllowVisa" ColumnName="AllowVisa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drivers">
+            <EntityTypeMapping TypeName="FreeHandsModel.Driver">
+              <MappingFragment StoreEntitySet="Drivers">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+                <ScalarProperty Name="City_ID" ColumnName="City_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Company_ID" ColumnName="Company_ID" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offers">
+            <EntityTypeMapping TypeName="FreeHandsModel.Offer">
+              <MappingFragment StoreEntitySet="Offers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Provider_ID" ColumnName="Provider_ID" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="FreeHandsModel.Option">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderOptions">
+            <EntityTypeMapping TypeName="FreeHandsModel.OrderOption">
+              <MappingFragment StoreEntitySet="OrderOptions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+                <ScalarProperty Name="Option_ID" ColumnName="Option_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="FreeHandsModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProblemInArriveToUser" ColumnName="ProblemInArriveToUser" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="IsOrderd" ColumnName="IsOrderd" />
+                <ScalarProperty Name="IsUseVisa" ColumnName="IsUseVisa" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Driver_ID" ColumnName="Driver_ID" />
+                <ScalarProperty Name="Offer_ID" ColumnName="Offer_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Accepted" ColumnName="Accepted" />
+                <ScalarProperty Name="Ready" ColumnName="Ready" />
+                <ScalarProperty Name="ISArrivedToUser" ColumnName="ISArrivedToUser" />
+                <ScalarProperty Name="UserLat" ColumnName="UserLat" />
+                <ScalarProperty Name="TaxForVisa" ColumnName="TaxForVisa" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Delivery" ColumnName="Delivery" />
+                <ScalarProperty Name="DateTimeNeeded" ColumnName="DateTimeNeeded" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="UserLog" ColumnName="UserLog" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Rates">
+            <EntityTypeMapping TypeName="FreeHandsModel.Product_Rates">
+              <MappingFragment StoreEntitySet="Product_Rates">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Avaiable" ColumnName="Avaiable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="FreeHandsModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Cat_ID" ColumnName="Cat_ID" />
+                <ScalarProperty Name="Provider_ID" ColumnName="Provider_ID" />
+                <ScalarProperty Name="TimeToFinish" ColumnName="TimeToFinish" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provider_Rates">
+            <EntityTypeMapping TypeName="FreeHandsModel.Provider_Rates">
+              <MappingFragment StoreEntitySet="Provider_Rates">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Provider_ID" ColumnName="Provider_ID" />
+                <ScalarProperty Name="Avaiable" ColumnName="Avaiable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Providers">
+            <EntityTypeMapping TypeName="FreeHandsModel.Provider">
+              <MappingFragment StoreEntitySet="Providers">
+                <ScalarProperty Name="SwiftCode" ColumnName="SwiftCode" />
+                <ScalarProperty Name="IPan" ColumnName="IPan" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="Admin_Accept" ColumnName="Admin_Accept" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+                <ScalarProperty Name="City_ID" ColumnName="City_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="TradeName" ColumnName="TradeName" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Log" ColumnName="Log" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="IsAvaiable" ColumnName="IsAvaiable" />
+                <ScalarProperty Name="AllowVisa" ColumnName="AllowVisa" />
+                <ScalarProperty Name="IsExcelent" ColumnName="IsExcelent" />
+                <ScalarProperty Name="KnownNumber" ColumnName="KnownNumber" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subscribers">
+            <EntityTypeMapping TypeName="FreeHandsModel.Subscriber">
+              <MappingFragment StoreEntitySet="Subscribers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="FreeHandsModel.Task">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Task1" ColumnName="Task" />
+                <ScalarProperty Name="FromManager" ColumnName="FromManager" />
+                <ScalarProperty Name="ToAdmin" ColumnName="ToAdmin" />
+                <ScalarProperty Name="Finished" ColumnName="Finished" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FreeHandsModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="City_ID" ColumnName="City_ID" />
+                <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RateProduct" FunctionName="FreeHandsModel.Store.RateProduct" />
+          <FunctionImportMapping FunctionImportName="RateProvider" FunctionName="FreeHandsModel.Store.RateProvider" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3d128d7d324c4028b292537b8912e31d" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="FreeHandsModel.Admin" Width="1.5" PointX="10.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Category" Width="1.5" PointX="3.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.City" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Company" Width="1.5" PointX="6.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Contact" Width="1.5" PointX="3.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Country" Width="1.5" PointX="1.5" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Datum" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Driver" Width="1.5" PointX="9" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Offer" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Option" Width="1.5" PointX="8.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.OrderOption" Width="1.5" PointX="13.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Order" Width="1.5" PointX="11.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Product_Rates" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Product" Width="1.5" PointX="6" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Provider_Rates" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Provider" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Subscriber" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.Task" Width="1.5" PointX="13" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeHandsModel.User" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="FreeHandsModel.FK__Tasks__FromManager__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Tasks__ToAdmin__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Products__Cat_ID__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__City__Country_ID__1CDC41A7" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Users__City_ID__1DD065E0" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Drivers__Company__65F62111" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Users__Country_I__1EC48A19" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Orders__Driver_I__0C50D423" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Offers__Product___1CF15040" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Offers__Provider__72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Orders__offer__0C50D423" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Options__Product__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__OrderOpti__Option__03F0984C" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__OrderOpti__Order__03F0984C" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Orders__Product___35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Orders__User_ID__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Product_R__Produ__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Product_R__User___68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Products__Provider__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Provider___Provi__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Provider___User___6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeHandsModel.FK__Drivers__City_ID__38EE7070" />
+        <AssociationConnector Association="FreeHandsModel.FK__Providers__City___3AD6B8E2" />
+        <AssociationConnector Association="FreeHandsModel.FK__Drivers__Country__39E294A9" />
+        <AssociationConnector Association="FreeHandsModel.FK__Providers__Count__3BCADD1B" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

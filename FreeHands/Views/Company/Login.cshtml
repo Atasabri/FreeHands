@@ -1,0 +1,70 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> Free Hands | شركات التوصيل </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <link href="~/Content/Company/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+    <!-- Custom Theme files -->
+    <link href="~/Content/Company/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!--js-->
+    <script src="~/Scripts/js/jquery-2.1.1.min.js"></script>
+    <!--icons-css-->
+    <link href="~/Content/Company/css/font-awesome.css" rel="stylesheet">
+    <!--Google Fonts-->
+    <link href='//fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
+    <!--static chart-->
+    <script src="~/Scripts/js/Chart.min.js"></script>
+    <!--//charts-->
+    <!-- geo chart -->
+    <script src="//cdn.jsdelivr.net/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+    <!-- Chartinator  -->
+    <script src="~/Scripts/js/chartinator.js"></script>
+    <!--geo chart-->
+    <!--skycons-icons-->
+    <script src="~/Scripts/js/skycons.js"></script>
+    <!--//skycons-icons-->
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-main">
+            <div class="login-head">
+                <h1>Login</h1>
+            </div>
+            <div style="margin-left:50%">
+                @if(ViewBag.error!=null)
+                {
+                    <span style="color:red;">@ViewBag.error</span>
+                }
+            </div>
+            <div class="login-block">
+                <form action="~/Company/Login" method="post">
+                    <input type="text" name="Name" placeholder="User Name" required="">
+                    <input type="password" name="Pass" required class="lock" placeholder="Password">
+                    <input type="submit" name="Sign In" value="Login">
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--inner block end here-->
+    <!--scrolling js-->
+    <script src="~/Scripts/js/jquery.nicescroll.js"></script>
+    <script src="~/Scriptsjs/scripts.js"></script>
+    <!--//scrolling js-->
+    <script src="~/Scriptsjs/bootstrap.js"> </script>
+    <!-- mother grid end here-->
+</body>
+</html>
+
+
+
+
+

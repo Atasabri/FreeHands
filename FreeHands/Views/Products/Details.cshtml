@@ -1,0 +1,548 @@
+﻿@model FreeHands.Models.Product
+
+@{
+    ViewBag.Title = "تفاصيل المنتج";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .market-update-right .fa {
+        font-size: 3em;
+        color: white;
+    }
+
+    #btn a {
+        border-radius: 0px;
+        background-color: #5bc0de;
+    }
+
+    .card-two header .avatar img {
+        position: absolute;
+        top: 14%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 100px;
+    }
+
+    .card-two h3 {
+        position: relative;
+        margin: 100px 0 24px;
+        text-align: center;
+    }
+
+    .card-two .desc {
+        padding: 0 1rem 2rem;
+        text-align: center;
+        line-height: 1.5;
+        color: #0c0505;
+        font-size: 24px;
+    }
+</style>
+<style>
+    .star-ratings-sprite {
+        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+        font-size: 0;
+        height: 21px;
+        line-height: 0;
+        overflow: hidden;
+        text-indent: -999em;
+        width: 110px;
+        margin: 0 auto;
+    }
+
+
+    .star-ratings-sprite-rating {
+        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+        background-position: 0 100%;
+        float: left;
+        height: 21px;
+        display: block;
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 25px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .card-two .contacts a .fa {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        line-height: 39px;
+        overflow: hidden;
+        text-align: center;
+        border: 2px solid #1976d2;
+        border-radius: 50%;
+    }
+
+    .contacts {
+        text-align: center;
+    }
+
+    .card-two .contacts a .fa :hover {
+        color: red;
+    }
+</style>
+<style>
+    .tip {
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        background: transparent;
+        border: 10px solid #ccc;
+    }
+
+    .tip-up {
+        top: -25px; /* Same as body margin top + border */
+        left: 10px;
+        border-right-color: transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+    }
+
+    .tip-down {
+        bottom: -25px;
+        left: 10px;
+        border-right-color: transparent;
+        border-left-color: transparent;
+        border-bottom-color: transparent;
+    }
+
+    .tip-left {
+        top: 10px;
+        left: -25px;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-bottom-color: transparent;
+    }
+
+    .tip-right {
+        top: 10px;
+        right: -25px;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+    }
+
+    .dialogbox .body {
+        position: relative;
+        max-width: 500px;
+        height: auto;
+        margin: 20px 10px;
+        padding: 5px;
+        background-color: #DADADA;
+        border-radius: 3px;
+        border: 5px solid #ccc;
+    }
+
+    .body .message {
+        min-height: 30px;
+        border-radius: 3px;
+        font-family: Arial;
+        font-size: 24px;
+        line-height: 1.5;
+        color: #797979;
+    }
+
+    .modal-dialog {
+        width: 83%;
+    }
+
+    .modal-backdrop {
+        position: relative;
+    }
+
+    a {
+        cursor: pointer;
+    }
+</style>
+
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+
+        <!-- Container fluid  -->
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <div class="row">
+                <!-- Column -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-two">
+                                <header>
+                                    <div class="avatar">
+
+                                        <a class="pop">
+                                            <img src="~/Uploads/Products/@(Model.ID).jpg" alt="@Model.Name">
+                                        </a>
+                                    </div>
+                                </header>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <h3> @Model.Name </h3>
+                                <h3><span>السعر : </span> @Model.Price </h3>
+                                <h3><a target="_blank" href="~/Providers/Details/@(Model.Provider_ID)">@Model.Provider.TradeName</a></h3>
+                                <h3>Visible : @Html.DisplayFor(model => model.Visible)</h3>
+                                <div class="desc">
+                                    @Model.Description
+                                </div>
+                                <div class="desc">
+                                    <div class="cont">
+                                        @{
+                                            double rate = Model.Product_Rates.Where(r => r.Rate.HasValue).Count() > 0 ? Model.Product_Rates.Where(r => r.Rate.HasValue).Select(r => r.Rate.Value).Average() : 0;
+                                            double data = rate * 10;
+                                        }
+                                        <div class="star-ratings-sprite"><span style="width:@(data)%" class="star-ratings-sprite-rating"></span></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+            </div>
+
+
+
+
+            <div class="col-lg-12">
+                <div class="card" style="text-align:right;">
+                    <div class="tab-content">
+                        <!--Reservations-->
+                        <div class="tab-pane active" id="Reservations" role="tabpanel">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-title">
+                                        <h4 class="btn btn-info"> الطلبات </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table" id="table">
+                                                <thead>
+                                                    <tr>
+                                                        <td> التاريخ </td>
+                                                        <td> الاجمالي </td>
+                                                        <td>تفاصيل</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.Orders)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.Date.ToString("d") </td>
+                                                            <td>@item.Total</td>
+                                                            <td>
+                                                                <a target="_blank" class="btn btn-info" href="~/Orders/Details/@item.ID">
+                                                                    <i class="fa fa-info-circle"></i>
+                                                                    تفاصيل
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-title">
+                                        <h4 class="btn btn-info"> العروض </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table" id="table1">
+                                                <thead>
+                                                    <tr>
+                                                        <td> اسم العرض </td>
+                                                        <td> العدد </td>
+                                                        <td> السعر </td>
+                                                        <td> متاح </td>
+                                                        <td>حذف</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.Offers)
+                                                    {
+                                                        <tr id="@(item.ID)">
+                                                            <td>  @item.Name </td>
+                                                            <td> @item.Orders.Count </td>
+                                                            <td> @item.Price </td>
+                                                            @if (item.Active)
+                                                            {
+                                                                <td>
+                                                                    <i class="fa fa-check"></i>
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>
+                                                                    <i class="fa error"></i>
+                                                                </td>
+                                                            }
+                                                            <td id="@(item.ID)">
+                                                                <button class="btn btn-danger" onclick="DeleteOffer(@(item.ID));">
+                                                                    <i class="fa fa-trash "></i>
+                                                                    حذف
+                                                                </button>
+                                                            </td>
+
+                                                        </tr>
+
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-title">
+                                        <h4 class="btn btn-info"> الاضافات </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table" id="table2">
+                                                <thead>
+                                                    <tr>
+                                                        <td> اسم الاضافة </td>
+                                                        <td> السعر </td>
+                                                        <td>الوصف</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.Options)
+                                                    {
+                                                        <tr id="@(item.ID)">
+                                                            <td>  @item.OptionName </td>
+                                                            <td> @item.Price </td>
+                                                            <td> @item.Description</td>
+                                                            <td id="@(item.ID)">
+                                                                <button class="btn btn-danger" onclick="DeleteOption(@(item.ID));">
+                                                                    <i class="fa fa-trash "></i>
+                                                                    حذف
+                                                                </button>
+                                                            </td>
+
+                                                        </tr>
+
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end Reservations-->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container">
+                <div class="dialogbox">
+                    <h4 class="btn btn-info"> تعليقات </h4>
+                    @foreach (var item in Model.Product_Rates)
+                    {
+                        <div class="dialogbox" id="@(item.ID)">
+                            <div class="body">
+                                <span class="tip tip-right"></span>
+                                <div class="message" id="mm">
+                                    <span> @item.Comment</span>
+                                    <span style="float:left;">
+                                        <button class="btn btn-danger" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </span>
+                                    @if (item.Avaiable)
+                                    {
+                                        <span style="float:left;" id="@(item.ID)">
+                                            <button class="btn btn-default" onclick="Hide(@(item.ID),false);">
+                                                <i class="fa fa-eye-slash"></i>
+                                            </button>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span style="float:left;" id="@(item.ID)">
+                                            <button class="btn btn-default" onclick="Show(@(item.ID),true);">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </span>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+
+    </section>
+</section>
+
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" data-dismiss="modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <img src="" class="imagepreview" style="width: 100%;">
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<script>
+
+
+    function Delete(i) {
+
+        var Confirmed = confirm('   هل تريد مسح هذا التعليق بالفعل ؟');
+
+        if (Confirmed == true) {
+            $.post("@Url.Action("DeleteComment", "Products")", {
+
+                id: i
+
+            },
+                function (data) {
+                    $("div#" + data + "").remove();
+                }
+
+            )
+        }
+
+
+    }
+    function Hide(i, v) {
+
+        var Confirmed = confirm('   هل تريد اخفاء هذا التعليق بالفعل ؟');
+
+        if (Confirmed == true) {
+            $.post("@Url.Action("HideShowComment", "Products")", {
+
+                id: i,
+                visible: v
+
+            },
+                function (data) {
+                    $("#mm span#" + data + "").html("<button class='btn btn-default' onclick='Show(" + data + ",true);'><i class='fa fa-eye'></i></button>");
+                }
+
+            )
+        }
+
+
+    }
+    function Show(i, v) {
+
+        var Confirmed = confirm('   هل تريد اظهار هذا التعليق بالفعل ؟');
+
+        if (Confirmed == true) {
+            $.post("@Url.Action("HideShowComment", "Products")", {
+
+                id: i,
+                visible: v
+
+            },
+                function (data) {
+                    $("#mm span#" + data + "").html("<button class='btn btn-default' onclick='Hide(" + data + ",false);'><i class='fa fa-eye-slash'></i></button>");
+                }
+
+            )
+        }
+
+
+    }
+
+
+</script>
+<script>
+
+
+    function DeleteOffer(i) {
+
+        var Confirmed = confirm(' هل تريد مسح هذا العرض بالفعل ؟ .. لن يتم مسح العرض اذا سبق طلبه');
+
+        if (Confirmed == true) {
+            $.post("@Url.Action("DeleteOffer", "Products")", {
+
+                id: i
+
+            },
+                function (data) {
+
+                    $("#table1 tr#" + data + "").remove();
+                }
+
+            )
+        }
+
+
+    }
+
+
+</script>
+<script>
+
+
+    function DeleteOption(i) {
+
+        var Confirmed = confirm(' هل تريد مسح هذه الاضافة بالفعل ');
+
+        if (Confirmed == true) {
+            $.post("@Url.Action("DeleteOption", "Products")", {
+
+                id: i
+
+            },
+                function (data) {
+
+                    $("#table2 tr#" + data + "").remove();
+                }
+
+            )
+        }
+
+
+    }
+
+
+</script>
+
+<script>
+    $(function() {
+        $('.pop').on('click', function() {
+            $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+            $('#imagemodal').modal('show');
+        });
+    });
+</script>

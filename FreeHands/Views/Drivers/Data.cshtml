@@ -1,0 +1,168 @@
+﻿@model IEnumerable<FreeHands.Models.Driver>
+@{
+    ViewBag.Title = ViewBag.Head;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        @if(ViewBag.Head!=null)
+                        {
+                            <span>@ViewBag.Head</span> @Model.Count()
+                        }
+                        </div>
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> السائق </td>
+                                <td>عدد الطلبات</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td>#</td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> السائق </td>
+                                <td>عدد الطلبات</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td>#</td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@(item.ID)">
+                                    <td>@item.FirstName  @item.LastName</td>
+                                    <td>@item.Orders.Count</td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+                                        <a href="~/Drivers/Edit/@(item.ID)" title="تعديل" class="btn btn-primary">
+                                            <i class="fa fa-cog "></i>
+                                        </a>
+                                        <a href="~/Drivers/Details/@(item.ID)" title="تفاصيل" class="btn btn-primary">
+                                            <i class="fa fa-info-circle "></i>
+                                        </a>
+                                    </td>
+                                    <td id="@(item.ID)">
+                                        @if (item.Visible)
+                                        {
+                                            <button class="btn btn-default" onclick="MakeDriverUnVisible(@(item.ID),false);">
+                                                <i class="fa fa-lock "></i>
+                                                 متاح
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-default" onclick="MakeDriverVisible(@(item.ID),true);">
+                                                <i class="fa fa-unlock "></i>
+                                                غير متاح
+                                            </button>
+                                        }
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('.. هل تريد مسح هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Drivers")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function MakeDriverUnVisible(i,v) {
+
+      var Confirmed= confirm('.. هل تريد تعطيل هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeDriverVisible", "Drivers")", {
+
+              id: i,
+              visible:v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeDriverVisible(" + data + ",true);'><i class='fa fa-unlock '></i> غير متاح</button>");
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function MakeDriverVisible(i,v) {
+
+      var Confirmed= confirm('.. هل تريد تفعيل هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeDriverVisible", "Drivers")", {
+
+              id: i,
+              visible:v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeDriverUnVisible(" + data + ",false);'><i class='fa fa-lock '></i> متاح</button>");
+          }
+
+        )
+      }
+
+
+        }
+
+
+</script>

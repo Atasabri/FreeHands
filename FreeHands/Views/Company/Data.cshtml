@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Data";
+    Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+
+<div class="inner-block">
+    <!--market updates updates-->
+    <div class="market-updates">
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <form onsubmit="return false">
+                <div class="form-group row">
+                    <div class="col-sm-9">
+                        <input type="date" id="FromDate" name="FromDate" class="form-control" required>
+                    </div>
+                    <label for="" class="col-sm-3 col-form-label"> من  </label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-9">
+                        <input type="date" id="ToDate" name="ToDate" class="form-control" required>
+                    </div>
+                    <label for="" class="col-sm-3 col-form-label"> الي  </label>
+                </div>
+                <div class="form-group row text-center">
+                    <button class="btn btn-primary" onclick="Search();" type="submit">بحث</button>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <label id="count"></label>
+                                </div>
+                                <label for="" class="col-sm-3 col-form-label">(Without Visa) عدد الطلبات  </label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <label id="Total"></label>
+                                </div>
+                                <label for="" class="col-sm-3 col-form-label">(Without Visa) الاجمالي  </label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <label id="Totalf"></label>
+                                </div>
+                                <label for="" class="col-sm-3 col-form-label">(Without Visa) اجمالي الدليفري   </label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <label id="countv"></label>
+                                </div>
+                                <label for="" class="col-sm-3 col-form-label">(Use Visa)  عدد الطلبات  </label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <label id="Totalv"></label>
+                                </div>
+                                <label for="" class="col-sm-3 col-form-label">(Use Visa) الاجمالي  </label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <label id="Totalvf"></label>
+                                </div>
+                                <label for="" class="col-sm-3 col-form-label">(Use Visa)  اجمالي الدليفري    </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"> </div>
+    </div>
+    <!--market updates end here-->
+
+</div>
+<script>
+
+
+    function Search() {
+
+      var Confirmed= confirm('هل تريد البحث بهذا التاريخ ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("GetCompanyData", "Company")", {
+              FromDate: $("#FromDate").val(),
+              ToDate: $("#ToDate").val(),
+          },
+      function (data) {
+
+          $("#count").html(data.Count);
+          $("#Total").html(data.Total);
+          $("#Totalf").html(data.TotalF);
+          $("#countv").html(data.CountV);
+          $("#Totalv").html(data.TotalV);
+          $("#Totalvf").html(data.TotalVF);
+      }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+
+

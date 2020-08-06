@@ -1,0 +1,194 @@
+﻿@model FreeHands.Models.Datum
+@using FreeHands.Models
+@{
+    ViewBag.Title = "الرئيسية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+ <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="market-updates text-center">
+            <div class="col-md-12market-update-gd">
+                <div class="market-update-block">
+
+                    <div id="you">
+                        <h3>
+                            <span>ضريبة الدفع الالكتروني</span>
+                            <span>(@Model.TaxForVisa %)</span>
+                        </h3>
+                        <h3>
+                            <span>ضريبة الشركة</span>
+                            <span>(@Model.Tax %)</span>
+                        </h3>
+                        <h3>
+                            <span>سعر التوصيل</span>
+                            <span>(@Model.Delivery)</span>
+                        </h3>
+                        <h3>
+                            <span>الرقم المعروف</span>
+                            @if (Model.AllowKnownNumber)
+                            {
+                                <span> ( مفعل ) </span>
+                            }
+                            else
+                            {
+                                <span>(  غير مفعل  )</span>
+                            }
+
+                        </h3>
+                        <h3>
+                            <span>الدفع</span>
+                            @if (Model.AllowVisa)
+                            {
+                                <span> ( مفعل ) </span>
+                            }
+                            else
+                            {
+                                <span>(  غير مفعل  )</span>
+                            }
+                           </h3>
+                        <br />
+                        <div>
+                            <a href="~/Admins/EditSettings" class="btn btn-info">
+                                <i class="fa fa-cog"></i>
+                                تعديل
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //market-->
+        <div class="market-updates">
+            <a target="_blank" href="~/Providers/Index">
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block clr-block-2">
+                        <div class="col-md-4 market-update-right">
+                            <i class="fa fa-users"> </i>
+                        </div>
+                        <div class="col-md-8 market-update-left">
+                            <h4>مقدمين الخدمة</h4>
+                            @{
+                                int ProvidersCount = new DB().Providers.Count();
+                            }
+                            <h3>@ProvidersCount</h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </a>
+            <a target="_blank" href="~/Products/Index">
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block clr-block-1">
+                        <div class="col-md-4 market-update-right">
+                            <i class="fa fa-th"> </i>
+                        </div>
+                        <div class="col-md-8 market-update-left">
+                            <h4> منتجات </h4>
+                            @{
+                                int ProductsCount = new DB().Products.Count();
+                            }
+                            <h3>@ProductsCount</h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                </a>
+            <a target="_blank" href="~/Categories/Index">
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block clr-block-3">
+                        <div class="col-md-4 market-update-right">
+                            <i class="fa fa-shopping-basket"></i>
+                        </div>
+                        <div class="col-md-8 market-update-left">
+                            <h4>الانواع </h4>
+                            @{
+                                int TypesCount = new DB().Categories.Count();
+                            }
+                            <h3>@TypesCount</h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                </a>
+            <a target="_blank" href="~/Orders/Index">
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block clr-block-4">
+                        <div class="col-md-4 market-update-right">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-md-8 market-update-left">
+                            <h4>الطلبات</h4>
+                            @{
+                                int OrdersCount = new DB().Orders.Count();
+                            }
+                            <h3>@OrdersCount</h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                </a>
+                <div class="clearfix"> </div>
+</div>
+       
+            <div class="market-updates">
+                <a target="_blank" href="~/Companies/Index">
+                    <div class="col-md-3 market-update-gd">
+                        <div class="market-update-block clr-block-1">
+                            <div class="col-md-4 market-update-right">
+                                <i class="fa fa-car"> </i>
+                            </div>
+                            <div class="col-md-8 market-update-left">
+                                <h4>شركات التوصيل </h4>
+                                @{
+                                    int CompaniesCount = new DB().Companies.Count();
+                                }
+                                <h3>@CompaniesCount</h3>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    </a>
+                <a target="_blank" href="~/Drivers/Index">
+                    <div class="col-md-3 market-update-gd">
+                        <div class="market-update-block clr-block-1">
+                            <div class="col-md-4 market-update-right">
+                                <i class="fa fa-car"> </i>
+                            </div>
+                            <div class="col-md-8 market-update-left">
+                                <h4>السائقين </h4>
+                                @{
+                                    int DriversCount = new DB().Drivers.Count();
+                                }
+                                <h3>@DriversCount</h3>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    </a>
+                <a target="_blank" href="~/Users/Index">
+                    <div class="col-md-3 market-update-gd">
+                        <div class="market-update-block clr-block-4">
+                            <div class="col-md-4 market-update-right">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="col-md-8 market-update-left">
+                                <h4>المستخدمين </h4>
+                                @{
+                                    int UsersCount = new DB().Users.Count();
+                                }
+                                <h3>@UsersCount</h3>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    </a>
+
+                    <div class="clearfix"> </div>
+</div>
+
+            <!-- //market-->
+</section>
+</section>

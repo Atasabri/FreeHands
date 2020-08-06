@@ -1,0 +1,80 @@
+﻿@model IEnumerable<FreeHands.Models.Order>
+
+@{
+    ViewBag.Title = ViewBag.Head;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        @if(ViewBag.Head!=null)
+                        {
+                            <span>@ViewBag.Head</span> @Model.Count()
+                        }
+                        </div>
+                    </div>
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td> التاريخ </td>
+                                <td> اسم المنتج </td>
+                                <td>العدد</td>
+                                <td>الاجمالي</td>
+                                <td>اسم الاسرة</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> التاريخ </td>
+                                <td> اسم المنتج </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody id="test">
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@(item.ID)">
+                                    <td>
+                                        <a href="~/Orders/Details/@(item.ID)" title="تفاصيل" class="btn btn-primary">
+                                            @item.ID
+                                        </a>
+                                    </td>
+                                    <td> @item.Date.ToString("MM/dd/yyyy") </td>
+                                    <td><a target="_blank" href="~/Products/Details/@(item.Product_ID)">@item.Product.Name</a> </td>
+                                    <td>@item.Number</td>
+                                    <td>@item.Total</td>
+                                    <td>
+                                        <a href="~/Providers/Details/@(item.Product.Provider_ID)" title="تفاصيل">
+                                            @item.Product.Provider.TradeName
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+

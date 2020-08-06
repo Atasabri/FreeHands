@@ -1,0 +1,94 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title> Free Hands | شركات التوصيل </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <link rel="icon" href="~/Content/HTML/img/logo.png" type="image/x-icon">
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <link href="~/Content/Company/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+    <!-- Custom Theme files -->
+    <link href="~/Content/Company/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!--js-->
+    <script src="~/Scripts/js/jquery-2.1.1.min.js"></script>
+    <!--icons-css-->
+    <link href="~/Content/Company/css/font-awesome.css" rel="stylesheet">
+    <!--Google Fonts-->
+    <link href='//fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Work+Sans:400,500,600' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="left-content">
+            <div class="mother-grid-inner">
+                <!--header start here-->
+                <div class="header-main">
+                    <div class="header-left">
+
+                        <div class="logo">
+                            <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a> <a href="#">
+                                <span id="logo"></span>
+                            </a>
+                            @RenderSection("create",false)
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+               @RenderBody()
+
+            </div>
+        </div>
+        <!--slider menu-->
+        <div class="sidebar-menu">
+            <div class="menu">
+                <ul id="menu">
+                    <li id="menu-home" class="active"><a href="~/Company/Dashboard"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
+                    <li>
+                        <a href="~/Company/Data"><i class="fa fa-info"></i><span>Data</span></a>
+                    </li>
+                    <li>
+                        <a href="~/Company/Drivers"><i class="fa fa-car"></i><span>Drivers</span></a>
+                        </li>
+                    <li>
+                        <a href="~/Company/Orders"><i class="fa fa-shopping-cart"></i><span>Orders</span></a>
+                        </li>
+                    <li>
+                        <a href="~/Company/LogOut"><i class="fa fa-sign-out"></i><span>Sign Out</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <!--slide bar menu end here-->
+    <script>
+        var toggle = true;
+
+        $(".sidebar-icon").click(function () {
+            if (toggle) {
+                $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+                $("#menu span").css({ "position": "absolute" });
+            }
+            else {
+                $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+                setTimeout(function () {
+                    $("#menu span").css({ "position": "relative" });
+                }, 400);
+            }
+            toggle = !toggle;
+        });
+    </script>
+    <!--scrolling js-->
+    <script src="~/Scripts/js/scripts.js"></script>
+    <!--//scrolling js-->
+    <script src="~/Scripts/js/bootstrap.js"> </script>
+    <!-- mother grid end here-->
+</body>
+</html>                     

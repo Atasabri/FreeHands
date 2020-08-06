@@ -1,0 +1,378 @@
+﻿@model IEnumerable<FreeHands.Models.Driver>
+@using FreeHands.Models
+@{
+    ViewBag.Title = "السائقين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    @if (ViewBag.error != null)
+                    {
+                        <div class="panel-heading" style="margin:5px;">
+                            <span style="color:red">@ViewBag.error</span>
+                        </div>
+                    }
+                    <div class="panel-heading" style="margin:5px;">
+                       (@Model.Count()) السائقين
+                        <div class="col-sm-5 m-b-xs">
+                            <button class="btn btn-info" id="open">
+                                <i class="fa fa-plus-circle"></i>
+                                اضافة
+                            </button>
+                            <button class="btn btn-info" onclick="showpopup1();">
+                                تفاصيل السائقين
+                            </button>
+                            <button class="btn btn-info" onclick="showpopup2();">
+                                 بحث بالتاريخ للسائقين الغير مقيدين لشركات
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> السائق </td>
+                                <td>عدد الطلبات</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td>#</td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> السائق </td>
+                                <td>عدد الطلبات</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td>#</td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@(item.ID)">
+                                    <td>@item.FirstName  @item.LastName</td>
+                                    <td>@item.Orders.Count</td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+                                        <a href="~/Drivers/Edit/@(item.ID)" title="تعديل" class="btn btn-primary">
+                                            <i class="fa fa-cog "></i>
+                                        </a>
+                                        <a href="~/Drivers/Details/@(item.ID)" title="تفاصيل" class="btn btn-primary">
+                                            <i class="fa fa-info-circle "></i>
+                                        </a>
+                                    </td>
+                                    <td id="@(item.ID)">
+                                        @if (item.Visible)
+                                        {
+                                            <button class="btn btn-default" onclick="MakeDriverUnVisible(@(item.ID),false);">
+                                                <i class="fa fa-lock "></i>
+                                                 متاح
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-default" onclick="MakeDriverVisible(@(item.ID),true);">
+                                                <i class="fa fa-unlock "></i>
+                                                غير متاح 
+                                            </button>
+                                        }
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+<div id="popup" class="modal">
+    <div class="modal-content">
+        <div class="close">
+            &times;
+        </div>
+        <form method="post" action="~/Drivers/Create" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="FirstName" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> الاسم الاول  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="LastName" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> الاسم الاخير  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" id="email" class="form-control" onblur="CheckEmail();" name="Email" required>
+               <label id="status"></label>
+                 </div>
+                <label for="" class="col-sm-3 col-form-label">  البريد الالكتروني  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" name="Password" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">  كلمة المرور  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="Phone" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">  الهاتف  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="Location" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">  المكان  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input id="Checkbox1" name="Visible" value="true" checked type="checkbox" />
+                </div>
+                <label for="" class="col-sm-3 col-form-label">  متاح ؟  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <select id="Select1" name="Company_ID" class="form-control">
+                        <option>No Company</option>
+                        @foreach (var item in new DB().Companies)
+                        {
+                            <option value="@(item.ID)">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">  شركة التوصيل  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    @Html.DropDownList("Country_ID", new SelectList(new DB().Countries, "ID", "Name"), new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-3 col-form-label">الدولة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    @Html.DropDownList("City_ID",new SelectList(new DB().Cities, "ID", "Name"), new {@class= "form-control" })
+                </div>
+                <label for="" class="col-sm-3 col-form-label">المدينة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input id="File1" type="file" required name="Photo" />
+                </div>
+                <label for="" class="col-sm-3 col-form-label">   الصورة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input id="File1" type="file" required name="Driver_License" />
+                </div>
+                <label for="" class="col-sm-3 col-form-label">   صورة رخصة القيادة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input id="File1" type="file" required name="Driver_Car_License" />
+                </div>
+                <label for="" class="col-sm-3 col-form-label">  شركة رخصة السيارة  </label>
+            </div>
+            <div class="form-group row text-center" id="btn1">
+                <input class="btn btn-primary" type="submit" value="اضافة">
+            </div>
+        </form>
+    </div>
+</div>
+<div id="popup1" class="modal">
+    <div class="modal-content">
+        <div onclick="hide();" class="close">
+            &times;
+        </div>
+        <form>
+            <div class="form-group row text-center">
+                <a target="_blank" href="~/Drivers/UnVisibleDrivers"> سائقين غير متاحين (@Model.Where(x => !x.Visible).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Drivers/NotWorkDrivers"> سائقين لم يقوموا باي طلب (@Model.Where(x => x.Orders.Count < 1).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Drivers/FreeLancerDrivers">      سائقين لا ينتموا لاي شركات(@Model.Where(x => !x.Company_ID.HasValue).Count()) </a>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="popup2" class="modal">
+    <div class="modal-content">
+        <div onclick="hide();" class="close">
+            &times;
+        </div>
+        <form action="~/Drivers/Data" method="post">
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="FromDate" name="FromDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> من  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="ToDate" name="ToDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> الي  </label>
+            </div>
+            <div class="form-group row text-center">
+                <button class="btn btn-primary" type="submit">بحث</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('.. هل تريد مسح هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Drivers")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function MakeDriverUnVisible(i,v) {
+
+      var Confirmed= confirm('.. هل تريد تعطيل هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeDriverVisible", "Drivers")", {
+
+              id: i,
+              visible:v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeDriverVisible(" + data + ",true);'><i class='fa fa-unlock '></i> غير متاح</button>");
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function MakeDriverVisible(i,v) {
+
+      var Confirmed= confirm('.. هل تريد تفعيل هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeDriverVisible", "Drivers")", {
+
+              id: i,
+              visible:v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeDriverUnVisible(" + data + ",false);'><i class='fa fa-lock '></i>  متاح</button>");
+          }
+
+        )
+      }
+
+
+        }
+
+
+</script>
+<script>
+    function CheckEmail() {
+
+
+        $("#status").html("Checking...")
+
+
+        $.post("@Url.Action("CheckEmail", "Company")", {
+
+            email: $("#email").val(),
+        },
+
+            function (data) {
+                if(data==1)
+                {
+                    $("#btn1").html("");
+                    $("#btn1").html("<button type='submit' class='btn btn-primary'>اضافة</button>");
+                    $("#status").html('<font color="Green">تستطيع استخدام هذا الايميل</font>');
+                } else {
+                    $("#btn1").html("");
+                    $("#status").html('<font color="Red">لا تستطيع استخدام هذا الايميل</font>');
+                }
+            }
+            )
+    }
+</script>
+<script>
+    var popup1 = document.getElementById("popup1");
+    var popup2 = document.getElementById("popup2");
+    function showpopup1() {
+        popup1.style.display = "block";
+    }
+    function showpopup2() {
+        popup2.style.display = "block";
+    }
+    function hide() {
+        popup1.style.display = "none";
+        popup2.style.display = "none";
+    }
+
+</script>
+<script>
+    $(document).ready(function(){
+          $("#Country_ID").change(function(){
+              $.get("/Company/GetCities", { CountryID: $("#Country_ID").val() }, function (data) {
+                  $("#City_ID").empty();
+                  $.each(data, function (index, row) {
+                      $("#City_ID").append("<option value='" + row.ID + "'>" + row.Name + "</option>");
+                  });
+              });
+           });
+        });
+</script>
+

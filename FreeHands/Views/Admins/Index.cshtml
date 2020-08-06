@@ -1,0 +1,195 @@
+﻿@model IEnumerable<FreeHands.Models.Admin>
+@using FreeHands.Models
+@{
+    ViewBag.Title = "المديرين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int ID = int.Parse(User.Identity.Name);
+    Admin admin = new DB().Admins.Find(ID);
+}
+
+
+  <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    @if (ViewBag.error != null)
+                    {
+                        <div class="panel-heading" style="margin:5px;">
+                            <span style="color:red">@ViewBag.error</span>
+                        </div>
+                    }
+                    <div class="panel-heading" style="margin:5px;">
+                      
+                        بيانات المديرين
+                        @if (admin.IsManager)
+                        {
+                            <div class="col-sm-5 m-b-xs">
+                                <button class="btn btn-info" id="open">
+                                    <i class="fa fa-plus-circle"></i>
+                                    اضافة
+                                </button>
+                            </div>
+                        }
+                        
+                    </div>
+                  
+                            @if (admin.IsManager)
+                            {
+                                <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <td>
+                                                اسم المدير
+                                            </td>
+                                            <td> مدير ؟</td>
+                                            <td>
+                                                <i class="fa fa-cogs"></i>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <td> اسم المدير</td>
+                                            <td> مدير ؟ </td>
+                                            <td>
+                                                <i class="fa fa-cogs"></i>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr id="@item.ID">
+                                                <td>@item.UserName </td>
+                                                <td>@Html.DisplayFor(modelItem => item.IsManager)</td>
+                                                <td>
+                                                    <button class="btn btn-danger" title="حذف" onclick="Delete(@item.ID);">
+                                                        <i class="fa fa-trash "></i>
+                                                    </button>
+                                                    <a href="~/Admins/Edit/@item.ID" title="تعديل" class="btn btn-primary">
+                                                        <i class="fa fa-cog "></i>
+                                                    </a>
+                                                    <a href="~/Admins/Details/@item.ID" title="تفاصيل" class="btn btn-info">
+                                                        <i class="fa fa-info-circle "></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                            }
+                            else
+                            {
+                                <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <td>
+                                                اسم المدير
+                                            </td>
+                                            <td> مدير ؟</td>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <td> اسم المدير</td>
+                                            <td> مدير ؟ </td>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>@item.UserName </td>
+                                    <td>@Html.DisplayFor(modelItem => item.IsManager)</td>
+                                </tr>
+
+                                }
+
+                                    </tbody>
+                                </table>
+
+                            }
+
+
+                        </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+<!--main content end-->
+@if (admin.IsManager)
+{
+    <div id="popup" class="modal">
+        <div class="modal-content">
+            <div class="close">
+                &times;
+            </div>
+            <form action="~/Admins/Create" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <input type="text" name="UserName" required class="form-control">
+                    </div>
+                    <label for="" class="col-sm-4 col-form-label"> اسم المستخدم </label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <input type="password" name="Password" required class="form-control">
+                    </div>
+                    <label for="" class="col-sm-4 col-form-label"> كلمة المرور </label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <input type="checkbox" value="true" name="IsManager">
+                    </div>
+                    <label for="" class="col-sm-4 col-form-label"> هو مدير </label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <input type="file" name="Photo" required>
+                    </div>
+                    <label for="" class="col-sm-4 col-form-label"> صورة </label>
+                </div>
+                <div class="form-group row text-center">
+                    <input class="btn btn-success" type="submit" value="اضافة">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('هل تريد مسح هذا المدير بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Admins")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+    </script>
+}
+
+

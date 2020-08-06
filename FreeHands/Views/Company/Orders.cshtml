@@ -1,0 +1,109 @@
+﻿@model IEnumerable<FreeHands.Models.Order>
+
+@{
+    ViewBag.Title = "الطلبات";
+    Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+
+
+ <!--inner block start here-->
+<div class="inner-block">
+    <!--market updates updates-->
+    <div class="market-updates">
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <form action="~/Company/GetOrders" method="post">
+                <div class="form-group row">
+                    <div class="col-sm-9">
+                        <input type="date" id="FromDate" name="FromDate" class="form-control" required>
+                    </div>
+                    <label for="" class="col-sm-3 col-form-label"> من  </label>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-9">
+                        <input type="date" id="ToDate" name="ToDate" class="form-control" required>
+                    </div>
+                    <label for="" class="col-sm-3 col-form-label"> الي  </label>
+                </div>
+                <div class="form-group row text-center">
+                    <button class="btn btn-primary" type="submit">بحث</button>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" style="direction:ltr;">
+                                <thead>
+                                    <tr>
+                                        <th>Driver Name </th>
+                                        <th>Date </th>
+                                        <th>Details </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Driver.FirstName </td>
+                                            <td>@item.Date.ToString("MM/dd/yyyy")</td>
+                                            <th>
+                                                <button data-toggle="modal" onclick="GetDataDetails(@(item.ID));" data-target="#myModalDetails" class="btn btn-primary"> Details </button>
+                                            </th>
+
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"> </div>
+    </div>
+    <!--market updates end here-->
+
+</div>
+<!--inner block end here-->
+<div id="myModalDetails" class="modal fade " role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Order Data</h4>
+            </div>
+            <div class="modal-body">
+
+                <div id="formDetails">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    </div>
+
+<script>
+    function GetDataDetails(i) {
+        $("#formDetails").html("");
+        $.post("@Url.Action("Order","Company")", {
+
+        id: i
+    },
+
+    function (data) {
+        $("#formDetails").html("<div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Driver First Name : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.FirstName + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Driver Last Name : </label><div class='col-sm-8'><label class='' >" + data.LastName + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Date : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label' >" + data.Date + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Number : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'  >" + data.Number + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>User Phone : </label><div class='col-sm-8'><label type='text' class='col-sm-4 col-form-label' >" + data.Phone + "</label></div></div> <div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Product Name : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.Name + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Accepted : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.Accepted + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>IS Arrived To User : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.ISArrivedToUser + "</label></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Total : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.Total + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Delivery : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.Delivery + "</label></div></div></div></div>");
+        document.getElementById("myModalDetails").style.display = "block";
+    }
+            )
+    }
+</script> 

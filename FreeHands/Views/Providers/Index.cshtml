@@ -1,0 +1,476 @@
+﻿@model IEnumerable<FreeHands.Models.Provider>
+@using FreeHands.Models
+@{
+    ViewBag.Title = "مقدمين الخدمات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+  <!--main content start-->
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    @if (ViewBag.error != null)
+                    {
+                        <div class="panel-heading" style="margin:5px;">
+                            <span style="color:red">@ViewBag.error</span>
+                        </div>
+                    }
+                    <div class="panel-heading" style="margin:5px;">
+                        مقدمين الخدمات (@Model.Count())
+                        <div class="col-sm-5 m-b-xs">
+                            <button class="btn btn-info" id="open">
+                                <i class="fa fa-plus-circle"></i>
+                                اضافة
+                            </button>
+                            <button class="btn btn-info" onclick="showpopup1();">                              
+                                بحث بالتاريخ
+                            </button>
+                            <button class="btn btn-info" onclick="showpopup2();">
+                                 تفاصيل اخري
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> الاسم التجاري </td>
+                                <td>الهاتف</td>
+                                <td> البريد </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td> متميز </td>
+                                <td>متاح من الادمن</td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> الاسم التجاري </td>
+                                <td>الهاتف</td>
+                                <td> البريد </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td> متميز </td>
+                                <td>متاح من الادمن</td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.ID">
+                                    <td> @item.TradeName </td>
+                                    <td> @item.Phone </td>
+                                    <td> @item.Email </td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@item.ID);">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+                                        <a href="~/Providers/Edit/@item.ID" title="تعديل" class="btn btn-primary">
+                                            <i class="fa fa-cog "></i>
+                                        </a>
+                                        <a href="~/Providers/Details/@item.ID" title="تفاصيل" class="btn btn-info">
+                                            <i class="fa fa-info-circle "></i>
+                                        </a>
+                                    </td>
+                                    <td id="@(item.ID)">
+                                        @if (item.IsExcelent)
+                                        {
+                                            <button class="btn btn-default" onclick="MakeNotExcelent(@(item.ID),false);">
+                                                <i class="fa fa-lock "></i>
+                                                 متميز
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-default" onclick="MakeExcelent(@(item.ID),true);">
+                                                <i class="fa fa-unlock "></i>
+                                                غير متميز
+                                            </button>
+                                        }
+
+                                    </td>
+                                    <td id="accept@(item.ID)">
+                                        @if (item.Admin_Accept)
+                                        {
+                                            <button class="btn btn-default" onclick="MakeNotAccept(@(item.ID),false);">
+                                                <i class="fa fa-lock "></i>
+                                                 مفعل من قبل الادمن
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-default" onclick="MakeAccept(@(item.ID),true);">
+                                                <i class="fa fa-unlock "></i>
+                                                غير مفعل من قبل الادمن 
+                                            </button>
+                                        }
+
+                                    </td>
+                                    
+                                </tr>
+
+                            }                       
+                         </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+<!--main content end-->
+<div id="popup" class="modal">
+    <div class="modal-content">
+        <div class="close">
+            &times;
+        </div>
+        <form action="~/Providers/Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="FirstName" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> الاسم الاول </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="LastName" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> الاسم الاخير </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="TradeName" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> الاسم التجاري  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="email" class="form-control" name="Email" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> البريد الالكتروني </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="tel" class="form-control" name="Phone" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> البريد الالكتروني </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" name="Password" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> كلمة السر</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Lat" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> خط الطول </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Log" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> دائرة العرض </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Location" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> العنوان </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Currency" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> العملة </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    @Html.DropDownList("Country_ID", new SelectList(new DB().Countries, "ID", "Name"), new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-4 col-form-label">الدولة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    @Html.DropDownList("City_ID", new SelectList(new DB().Cities, "ID", "Name"), new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-4 col-form-label">المدينة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <label class="switch">
+                        <input type="checkbox" value="true" name="AllowVisa">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> التعامل بالدفع الالكتروني </label>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="KnownNumber">
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> الرقم المعلوم </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <label class="switch">
+                        <input type="checkbox" value="true" name="IsAvaiable">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> متاح ؟ </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <label class="switch">
+                        <input type="checkbox" value="true" name="IsExcelent">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> هو ممتاز </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" name="Photo" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> صورة مقدم الخدمة </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" name="IdentityPhoto" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> صورة تحقيق الهوية </label>
+            </div>
+            <div class="form-group row text-center">
+                <input class="btn btn-success" type="submit" value="اضافة">
+            </div>
+        </form>
+    </div>
+</div>
+<div id="popup1" class="modal">
+    <div class="modal-content">
+        <div onclick="hide();" class="close">
+            &times;
+        </div>
+        <form action="~/Providers/Data" method="post">
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="FromDate" name="FromDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> من  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="ToDate" name="ToDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> الي  </label>
+            </div>
+            <div class="form-group row text-center">
+                <button class="btn btn-primary"  type="submit">بحث</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="popup2" class="modal">
+    <div class="modal-content">
+        <div onclick="hide()" class="close">
+            &times;
+        </div>
+        <form>
+            <div class="form-group row text-center">
+                <a target="_blank" href="~/Providers/VisaProviders">المستخدمين للدفع الالكتروني(@Model.Where(x=>x.AllowVisa).Count()) </a>
+                <br/>
+                <a target="_blank" href="~/Providers/KnownNumberProviders">المستخدمين للرقم المعروف(@Model.Where(x =>!string.IsNullOrEmpty(x.KnownNumber)).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Providers/NotWorkProviders">  مقدمين ليس لديهم اي طلبات(@Model.Where(x => x.Products.SelectMany(y=>y.Orders).Count()<1).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Providers/ExcelentProviders">المستخدمين  المتميزين(@Model.Where(x => x.IsExcelent).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Providers/NotVisibleProviders">المستخدمين  الغير متاحين(@Model.Where(x => !x.IsAvaiable).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Providers/NotAcceptProviders">المستخدمين  الغير مفعلين من قبل الادمن(@Model.Where(x => !x.Admin_Accept).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Providers/NotGoodProviders">المستخدمين تقيمهم اقل من 2.5(@Model.Where(x => x.Provider_Rates.Where(r=>r.Rate.HasValue).Average(r=>r.Rate)<2.5).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Providers/TopOrders">مستخدمين اعلي في الطلبات 20</a>
+                <br />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('سيتم مسح المنتجات الخاصة بهذا المقدم .. هل تريد مسح هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Providers")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+
+<script>
+
+
+    function MakeExcelent(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تمييز هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeExcelent", "Providers")", {
+
+              id: i,
+              isexcelent: v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeNotExcelent(" + data + ",false);'><i class='fa fa-lock '></i>  متميز</button>");
+          }
+
+        )
+      }
+
+
+        }
+
+
+</script>
+<script>
+
+
+    function MakeNotExcelent(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تعطيل تمييز هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeExcelent", "Providers")", {
+
+              id: i,
+              isexcelent:v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeExcelent(" + data + ",true);'><i class='fa fa-unlock '></i> غير متميز</button>");
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function MakeAccept(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تفعيل هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeAccept", "Providers")", {
+
+              id: i,
+              isaccept: v
+
+           },
+      function (data) {
+          $("#example23 td#accept" + data + "").html("");
+          $("#example23 td#accept" + data + "").html(" <button class='btn btn-default' onclick='MakeNotAccept(" + data + ",false);'><i class='fa fa-lock '></i>  مفعل من قبل الادمن</button>");
+          }
+
+        )
+      }
+
+
+        }
+
+
+</script>
+<script>
+
+
+    function MakeNotAccept(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تعطيل تفعيل هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeAccept", "Providers")", {
+
+              id: i,
+              isaccept:v
+
+           },
+      function (data) {
+          $("#example23 td#accept" + data + "").html("");
+          $("#example23 td#accept" + data + "").html(" <button class='btn btn-default' onclick='MakeAccept(" + data + ",true);'><i class='fa fa-unlock '></i> غير مفعل من قبل الادمن</button>");
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+
+<script>
+    var popup1 = document.getElementById("popup1");
+    var popup2 = document.getElementById("popup2");
+    function showpopup1() {
+        popup1.style.display = "block";
+    }
+    function showpopup2() {
+        popup2.style.display = "block";
+    }
+    function hide() {
+        popup1.style.display = "none";
+        popup2.style.display = "none";
+    }
+</script>
+<script>
+    $(document).ready(function(){
+          $("#Country_ID").change(function(){
+              $.get("/Company/GetCities", { CountryID: $("#Country_ID").val() }, function (data) {
+                  $("#City_ID").empty();
+                  $.each(data, function (index, row) {
+                      $("#City_ID").append("<option value='" + row.ID + "'>" + row.Name + "</option>");
+                  });
+              });
+           });
+        });
+</script>

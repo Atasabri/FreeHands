@@ -1,0 +1,400 @@
+﻿@model IEnumerable<FreeHands.Models.Driver>
+@using FreeHands.Models
+@{
+    ViewBag.Title = "Drivers";
+    Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+@section create{
+    
+    <button data-toggle="modal" data-target="#myModal" class="btn btn-success add-new" style="left:35px;"> <span class="fa fa-plus-circle"></span>  Add New   </button>
+    
+    }
+ <!--inner block start here-->
+<div class="inner-block">
+    <!--market updates updates-->
+    <div class="market-updates">
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" style="direction:ltr;">
+                                <thead>
+                                    <tr>
+                                        <th>Name </th>
+                                        <th>Number </th>
+                                        <th>Details </th>
+                                        <th>Delete </th>
+                                        <th>Edit </th>
+                                        <th>#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="@(item.ID)">
+                                            <td>@item.FirstName </td>
+                                            <td>@item.Phone</td>
+                                            <th>
+                                                <button data-toggle="modal" data-target="#myModalDetails" onclick="GetDataDetails(@(item.ID));"  class="btn btn-primary"> Details </button>
+                                            </th>
+                                            <th>
+                                                <button onclick="Delete(@(item.ID));" class="btn btn-danger"> Delete </button>
+                                            </th>
+                                            <th>
+                                                <button  data-toggle="modal" data-target="#myModalEdit" onclick="GetData(@(item.ID));" class="btn btn-info"> Edit </button>
+                                            </th>
+                                            <th id="@(item.ID)">
+                                                @if (item.Visible)
+                                                {
+                                                    <button onclick="MakeDriverUnVisible(@(item.ID),false);" class="btn btn-default"><i class="fa fa-lock "></i>  متاح </button>
+                                                }
+                                                else
+                                                {
+                                                    <button onclick="MakeDriverVisible(@(item.ID),true);" class="btn btn-default"><i class="fa fa-unlock "></i>  غير متاح </button>
+                                                }
+
+                                            </th>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"> </div>
+    </div>
+    <!--market updates end here-->
+
+    <div id="myModal" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Driver </h4>
+                </div>
+                <div class="modal-body">
+
+                    <form id="form" action="~/Company/CreateDriver" method="post" enctype="multipart/form-data">
+
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">First Name : </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="FirstName" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Last Name : </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="LastName" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Email : </label>
+                            <div class="col-sm-8">
+                               
+                                 <input type="text" class="form-control" onblur="CheckEmail();" name="Email" required id="email" value="">
+                            <label id="status"></label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Password : </label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" name="Password" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Phone : </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="Phone" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Country : </label>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("Country_ID", new SelectList(new DB().Countries, "ID", "Name"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">City : </label>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("City_ID", new SelectList(new DB().Cities, "ID", "Name"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Location : </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="Location" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Photo : </label>
+                            <div class="col-sm-8">
+                                <input type="file" class="form-control" name="Photo" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Driver License : </label>
+                            <div class="col-sm-8">
+                                <input type="file" class="form-control" name="Driver_License" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-4 col-form-label">Driver Car License : </label>
+                            <div class="col-sm-8">
+                                <input type="file" class="form-control" name="Driver_Car_License" required id="staticEmail" value="">
+                            </div>
+                        </div>
+                        <div id="btn">
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="myModalEdit" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Driver </h4>
+                </div>
+                <div class="modal-body">
+
+                    <form id="formedit"  action="~/Company/DriverEdit" method="post" enctype="multipart/form-data">
+                  
+                      </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div id="myModalDetails" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> Driver Data</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div id="formDetails">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<!--inner block end here-->
+<script src="~/Scripts/js/lib/datatables/datatables.min.js"></script>
+<script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="~/Scripts/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="~/Scripts/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="~/Scripts/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="~/Scripts/js/lib/datatables/datatables-init.js"></script>
+
+    <script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('You Will Delete Thsi Driver !!');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("DeleteDriver", "Company")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+
+<script>
+    function CheckEmail() {
+
+
+        $("#status").html("Checking...")
+
+
+        $.post("@Url.Action("CheckEmail","Company")", {
+
+            email: $("#email").val()
+        },
+
+            function (data) {
+                if(data==1)
+                {
+                    $("#btn").html("<button type='submit' class='btn btn-success'>Add</button>");
+                    $("#status").html('<font color="Green">You Can Use This Email</font>');
+                } else {
+                    $("#btn").html("");
+                    $("#status").html('<font color="Red">You Can Not Use This Email</font>');
+                }
+            }
+            )
+    }
+</script>
+
+<script>
+    function GetData(i) {
+        $("#formedit").html("");
+        $.post("@Url.Action("Driver","Company")", {
+
+        id: i
+    },
+
+    function (data) {        
+        $("#formedit").html("<div id='Edit'><input type='hidden' id='hide1' name='ID' value='" + data.ID + "' /><input type='hidden' id='hide1' name='Country_ID' value='" + data.Country_ID + "' /><input type='hidden' id='hide1' name='City_ID' value='" + data.City_ID + "' /><input type='hidden' id='hide1' name='Visible' value='" + data.Visible + "' /><input type='hidden' id='hide2' name='Token' value='" + data.Token + "' /><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>First Name : </label><div class='col-sm-8'><input type='text' value='" + data.FirstName + "' class='form-control' name='FirstName' required id='staticEmail'></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Last Name : </label><div class='col-sm-8'><input type='text' class='form-control' name='LastName' required id='staticEmail' value='" + data.LastName + "'></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Email : </label><div class='col-sm-8'><input type='text' class='form-control' onblur='CheckEmailEdit();' name='Email' required id='email1' value='" + data.Email + "'><label id='status1'></label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Password : </label><div class='col-sm-8'><input type='password' class='form-control' name='Password' required id='staticEmail' value='" + data.Password + "'></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Phone : </label><div class='col-sm-8'><input type='text' class='form-control' name='Phone' required id='staticEmail' value='" + data.Phone + "'></div></div> <div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Location : </label><div class='col-sm-8'><input type='text' class='form-control' name='Location' required id='staticEmail' value='" + data.Location + "'></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Photo : </label><div class='col-sm-8'><input type='file' class='form-control' name='Photo' id='staticEmail' value=''></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Driver License : </label><div class='col-sm-8'><input type='file' class='form-control' name='Driver_License' id='staticEmail' value=''></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Driver Car License : </label><div class='col-sm-8'><input type='file' class='form-control' name='Driver_Car_License' id='staticEmail' value=''></div></div><div id='btn1'></div></div>");
+        $("#btn1").html("<button type='submit' class='btn btn-success'>Edit</button>");
+        document.getElementById("myModalEdit").style.display = "block";
+    }
+            )
+    }
+</script>
+<script>
+    function GetDataDetails(i) {
+        $("#formDetails").html("");
+        $.post("@Url.Action("Driver","Company")", {
+
+        id: i
+    },
+
+    function (data) {
+        $("#formDetails").html("<div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>First Name : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.FirstName + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Last Name : </label><div class='col-sm-8'><label class='' >" + data.LastName + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Email : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label' >" + data.Email + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Password : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'  >" + data.Password + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Phone : </label><div class='col-sm-8'><label type='text' class='col-sm-4 col-form-label' >" + data.Phone + "</label></div></div> <div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Location : </label><div class='col-sm-8'><label class='col-sm-4 col-form-label'>" + data.Location + "</label></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Photo : </label><div class='col-sm-8'><img src='/Uploads/Driver_Photo/" + data.ID + ".jpg' name='Photo' width='50' height='50'></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Driver License : </label><div class='col-sm-8'><img src='/Uploads/Driver_License/" + data.ID + ".jpg' width='50' height='50'></div></div><div class='form-group row'><label for='name' class='col-sm-4 col-form-label'>Driver Car License : </label><div class='col-sm-8'><img src='/Uploads/Driver_Car_License/" + data.ID + ".jpg' width='50' height='50'></div></div></div>");
+        document.getElementById("myModalDetails").style.display = "block";
+    }
+            )
+    }
+    </script>   
+<script>
+    function CheckEmailEdit() {
+
+
+        $("#status1").html("Checking...")
+
+
+        $.post("@Url.Action("CheckEmailEdit","Company")", {
+
+            email: $("#email1").val(),
+            id: $("#hide1").val()
+        },
+
+            function (data) {
+                if(data==1)
+                {
+                    $("#btn1").html("");
+                    $("#btn1").html("<button type='submit' class='btn btn-success'>Add</button>");
+                    $("#status1").html('<font color="Green">You Can Use This Email</font>');
+                } else {
+                    $("#btn1").html("");
+                    $("#status1").html('<font color="Red">You Can Not Use This Email</font>');
+                }
+            }
+            )
+    }
+</script>
+<script>
+
+
+    function MakeDriverUnVisible(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تعطيل هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeDriverVisible", "Company")", {
+
+          id: i,
+          visible:v
+           },
+      function (data) {
+          $("#example23 th#" + data + "").html("");
+          $("#example23 th#" + data + "").html("<button onclick='MakeDriverVisible(" + data + ",true);' class='btn btn-default'><i class='fa fa-unlock '></i> غير متاح </button>");
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function MakeDriverVisible(i,v) {
+
+      var Confirmed= confirm('.. هل تريد تفعيل هذا السائق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeDriverVisible", "Company")", {
+
+              id: i,
+              visible: v
+
+           },
+      function (data) {
+          $("#example23 th#" + data + "").html("");
+          $("#example23 th#" + data + "").html("<button onclick='MakeDriverUnVisible(" + data + ",false);' class='btn btn-default'><i class='fa fa-lock '></i> متاح </button>");
+          }
+
+        )
+      }
+
+
+        }
+
+
+</script>
+<script>
+    $(document).ready(function(){
+          $("#Country_ID").change(function(){
+              $.get("/Company/GetCities", { CountryID: $("#Country_ID").val() }, function (data) {
+                  $("#City_ID").empty();
+                  $.each(data, function (index, row) {
+                      $("#City_ID").append("<option value='" + row.ID + "'>" + row.Name + "</option>");
+                  });
+              });
+           });
+        });
+</script>

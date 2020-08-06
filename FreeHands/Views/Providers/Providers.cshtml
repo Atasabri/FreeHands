@@ -1,0 +1,250 @@
+﻿@model IEnumerable<FreeHands.Models.Provider>
+
+@{
+    ViewBag.Title = ViewBag.Head;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        @if(ViewBag.Head!=null)
+                        {
+                            <span>@ViewBag.Head</span>  @Model.Count() 
+                        }
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> الاسم التجاري </td>
+                                <td>الهاتف</td>
+                                <td> البريد </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td> متميز </td>
+                                <td>متاح من الادمن</td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> الاسم التجاري </td>
+                                <td>الهاتف</td>
+                                <td> البريد </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                                <td> متميز </td>
+                                <td>متاح من الادمن</td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.ID">
+                                    <td> @item.TradeName </td>
+                                    <td> @item.Phone </td>
+                                    <td> @item.Email </td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@item.ID);">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+                                        <a href="~/Providers/Edit/@item.ID" title="تعديل" class="btn btn-primary">
+                                            <i class="fa fa-cog "></i>
+                                        </a>
+                                        <a href="~/Providers/Details/@item.ID" title="تفاصيل" class="btn btn-info">
+                                            <i class="fa fa-info-circle "></i>
+                                        </a>
+                                    </td>
+                                    <td id="@(item.ID)">
+                                        @if (item.IsExcelent)
+                                        {
+                                            <button class="btn btn-default" onclick="MakeNotExcelent(@(item.ID),false);">
+                                                <i class="fa fa-lock "></i>
+                                                متميز
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-default" onclick="MakeExcelent(@(item.ID),true);">
+                                                <i class="fa fa-unlock "></i>
+                                                غير  متميز
+                                            </button>
+                                        }
+                                        </td>
+                                    <td id="accept@(item.ID)">
+                                        @if (item.Admin_Accept)
+                                        {
+                                            <button class="btn btn-default" onclick="MakeNotAccept(@(item.ID),false);">
+                                                <i class="fa fa-lock "></i>
+                                                مفعل من قبل الادمن
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-default" onclick="MakeAccept(@(item.ID),true);">
+                                                <i class="fa fa-unlock "></i>
+                                                غير مفعل من قبل الادمن
+                                            </button>
+                                        }
+
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('سيتم مسح المنتجات الخاصة بهذا المقدم .. هل تريد مسح هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Providers")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+
+<script>
+
+
+    function MakeExcelent(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تمييز هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeExcelent", "Providers")", {
+
+              id: i,
+              isexcelent: v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeNotExcelent(" + data + ",false);'><i class='fa fa-lock '></i>  متميز</button>");
+          }
+
+        )
+      }
+
+
+        }
+
+
+</script>
+<script>
+
+
+    function MakeNotExcelent(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تعطيل تمييز هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeExcelent", "Providers")", {
+
+              id: i,
+              isexcelent:v
+
+           },
+      function (data) {
+          $("#example23 td#" + data + "").html("");
+          $("#example23 td#" + data + "").html(" <button class='btn btn-default' onclick='MakeExcelent(" + data + ",true);'><i class='fa fa-unlock '></i>غير متميز  </button>");
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+
+<script>
+
+
+    function MakeAccept(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تفعيل هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeAccept", "Providers")", {
+
+              id: i,
+              isaccept: v
+
+           },
+      function (data) {
+          $("#example23 td#accept" + data + "").html("");
+          $("#example23 td#accept" + data + "").html(" <button class='btn btn-default' onclick='MakeNotAccept(" + data + ",false);'><i class='fa fa-lock '></i>  مفعل من قبل الادمن</button>");
+          }
+
+        )
+      }
+
+
+        }
+
+
+</script>
+<script>
+
+
+    function MakeNotAccept(i, v) {
+
+      var Confirmed= confirm('.. هل تريد تعطيل تفعيل هذا المقدم بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ChangeAccept", "Providers")", {
+
+              id: i,
+              isaccept:v
+
+           },
+      function (data) {
+          $("#example23 td#accept" + data + "").html("");
+          $("#example23 td#accept" + data + "").html(" <button class='btn btn-default' onclick='MakeAccept(" + data + ",true);'><i class='fa fa-unlock '></i> غير مفعل من قبل الادمن</button>");
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<FreeHands.Models.Data>
+
+@{
+    ViewBag.Title = ViewBag.Head;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        @ViewBag.Head
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> الاسم التجاري </td>
+                                <td>عدد الطلبات (Without Visa)</td>
+                                <td> الاجمالي </td>
+                                <td> الاجمالي بعد الضريبة </td>
+                                <td> عدد الطلبات  (Use Visa)</td>
+                                <td> الاجمالي </td>
+                                <td> الاجمالي بعد الضريبة </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> الاسم التجاري </td>
+                                <td>عدد الطلبات (Without Visa)</td>
+                                <td> الاجمالي </td>
+                                <td> الاجمالي بعد الضريبة </td>
+                                <td> عدد الطلبات  (Use Visa)</td>
+                                <td> الاجمالي </td>
+                                <td> الاجمالي بعد الضريبة </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><a target="_blank" href="~/Providers/Details/@(item.ID)">@item.TradeName </a></td>
+                                    <td> @item.OrdersCount </td>
+                                    <td> @item.OrdersPrice </td>
+                                    <td> @item.OrdersPriceT </td>
+                                    <td> @item.OrdersCountV </td>
+                                    <td> @item.OrdersPriceV </td>
+                                    <td> @item.OrdersPriceTV </td>
+
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+
+

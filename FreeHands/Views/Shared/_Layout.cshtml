@@ -1,0 +1,358 @@
+﻿@using FreeHands.Models
+@{
+    int ID = int.Parse(User.Identity.Name);
+    Admin admin = new DB().Admins.Find(ID);
+    bool IsManager = admin.IsManager;
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon" href="~/Content/HTML/img/logo.png" type="image/x-icon">
+    <!-- bootstrap-css -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <!-- //bootstrap-css -->
+    <!-- Custom CSS -->
+    <link href="~/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="~/Content/css/style-responsive.css" rel="stylesheet" />
+    <!-- font CSS -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <!-- font-awesome icons -->
+    <link rel="stylesheet" href="~/Content/css/font.css" type="text/css" />
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/morris.css" type="text/css" />
+    <!-- calendar -->
+    <link rel="stylesheet" href="css/monthly.css">
+    <!-- //calendar -->
+    <link href="~/Content/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <!-- //font-awesome icons -->
+    <script src="~/Scripts/js/jquery2.0.3.min.js"></script>
+    <script src="~/Scripts/js/raphael-min.js"></script>
+    <script src="~/Scripts/js/morris.js"></script>
+
+
+    <style>
+        .market-update-right .fa {
+            font-size: 3em;
+            color: white;
+        }
+
+        #btn a {
+            border-radius: 0px;
+            background-color: #5bc0de;
+        }
+    </style>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+            .modal-content form {
+                padding: 60px;
+            }
+
+        .close {
+            color: #aaaaaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+
+    <style>
+        .backcolor {
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <section id="container">
+        <!--header start-->
+        <header class="header fixed-top clearfix" dir="rtl">
+            <!--logo start-->
+            <div class="brand">
+                <a href="~/Admins/Dashboard" class="logo">
+                    الاسر المنتجة
+                </a>
+                <div class="sidebar-toggle-box">
+                    <div class="fa fa-bars"></div>
+                </div>
+            </div>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+                <ul class="nav top-menu">
+                    <li id="btn">
+                        <a class="btn btn-info" href="~/Admins/EditSettings">
+                            <i class="fa fa-cog"></i> اعدادات متقدمة
+                        </a>
+                    </li>
+
+                    <!-- settings start -->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="fa fa-tasks"></i>
+                        </a>
+                        @if (IsManager)
+                        {
+                            <ul class="dropdown-menu extended tasks-bar">
+                                @foreach (var item in admin.Tasks.Take(4))
+                                {
+                                    <li>
+                                        <a href="#">
+                                            <div class="task-info clearfix">
+                                                <div class="desc pull-left">
+                                                    <h5>@item.Task1 </h5>
+                                                    <p>الى الادمن @item.Admin1.UserName</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                }
+
+                                <li class="external">
+                                    <a href="~/Admins/Tasks"> عرض كل المهام </a>
+                                </li>
+
+                            </ul>
+
+                        }
+                        else
+                        {
+                            <ul class="dropdown-menu extended tasks-bar">
+                                <li>
+                                    <p class=""> لديك @admin.Tasks1.Count من المهام الجديدة !</p>
+                                </li>
+                                @foreach (var item in admin.Tasks1.Where(x => x.Finished == false).Take(4))
+                                {
+                                    <li>
+                                        <a href="#">
+                                            <div class="task-info clearfix">
+                                                <div class="desc pull-left">
+                                                    <h5>@item.Task1 </h5>
+                                                    <p>من المدير @item.Admin.UserName</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                }
+
+                                <li class="external">
+                                    <a href="~/Admins/Tasks"> عرض كل المهام </a>
+                                </li>
+
+                            </ul>
+                        }
+                    </li>
+                    <!-- settings end -->
+                </ul>
+                <!--  notification end -->
+            </div>
+
+            <div class="top-nav clearfix">
+                <!--user info start-->
+                <ul class="nav pull-right top-menu">
+                    <!-- user login dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="username">@admin.UserName </span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <li><a href="~/Admins/Details/@(ID)"><i class=" fa fa-suitcase"></i> الصفحة الشخصية</a></li>
+                            <li><a href="~/Admins/EditSettings"><i class="fa fa-cog"></i> الاعدادات</a></li>
+                            <li><a href="~/Auth/LogOut"><i class="fa fa-key"></i> تسجيل الخروج</a></li>
+                        </ul>
+                    </li>
+                    <!-- user login dropdown end -->
+
+                </ul>
+                <!--user info end-->
+            </div>
+
+        </header>
+        <!--header end-->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <div class="leftside-navigation">
+                    <ul class="sidebar-menu" id="nav-accordion">
+                        <li id="Dashboard">
+                            <a href="~/Admins/Dashboard">
+                                <i class="fa fa-dashboard"></i>
+                                <span>التحليلات </span>
+                            </a>
+                        </li>
+
+                        <li id="Admins">
+                            <a href="~/Admins/Index">
+                                <i class="fa fa-lock"></i>
+                                <span> الادارة </span>
+                            </a>
+                        </li>
+
+                        <li class="sub-menu" id="Providers">
+                            <a href="javascript:;">
+                                <i class="fa fa-users"></i>
+                                <span> الخدمات </span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="~/Providers/Index"> المقدمين</a></li>
+                                <li><a href="~/Products/Index">المنتجات</a></li>
+                                <li><a href="~/Orders/Index">الطلبات</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu" id="Companies">
+                            <a href="~/Companies/Index">
+                                <i class="fa fa-car"></i>
+                                <span> شركات التوصيل</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu" id="Drivers">
+                            <a href="~/Drivers/Index">
+                                <i class="fa fa-car"></i>
+                                <span>  السائقين</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu" id="Countries">
+                            <a href="~/Countries/Index">
+                                <i class="fa fa-map"></i>
+                                <span>  الدول</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu" id="Website">
+                            <a href="javascript:;">
+                                <i class="fa fa-wechat"></i>
+                                <span> الموقع </span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="~/Website/Subscribers"> المتابعين</a></li>
+                                <li><a href="~/Website/Contacts">الشكاوي والرسائل</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu" id="Categories">
+                            <a href="~/Categories/Index" class="">
+                                <i class="fa fa-align-left"></i>
+                                <span> الانواع</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu" id="Users">
+                            <a href="~/Users/Index">
+                                <i class="fa fa-user"></i>
+                                <span> المستخدمين </span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+
+        @RenderBody()
+        <!--main content end-->
+    </section>
+    <script src="~/Scripts/js/bootstrap.js"></script>
+    <script src="~/Scripts/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="~/Scripts/js/scripts.js"></script>
+    <script src="~/Scripts/js/jquery.slimscroll.js"></script>
+    <script src="~/Scripts/js/jquery.nicescroll.js"></script>
+
+    <script type="text/javascript" src="js/monthly.js"></script>
+    <script>
+        var modal = document.getElementById('popup');
+
+        var btn = document.getElementById('open');
+
+        var span = document.getElementsByClassName('close')[0];
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script src="~/Scripts/js/lib/datatables/datatables.min.js"></script>
+    <script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="~/Scripts/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="~/Scripts/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="~/Scripts/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="~/Scripts/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="~/Scripts/js/lib/datatables/datatables-init.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            //jQuery
+          var UrlPath=  $(location).attr('href');
+          if (UrlPath.includes("Dashboard") || UrlPath.includes("dashboard"))
+          {
+              $("#nav-accordion #Dashboard").addClass("backcolor");
+          } else if (UrlPath.includes("Admins") || UrlPath.includes("admins")) {
+              $("#nav-accordion #Admins").addClass("backcolor");
+          } else if (UrlPath.includes("Providers") || UrlPath.includes("providers") || UrlPath.includes("Orders") || UrlPath.includes("orders") || UrlPath.includes("Products") || UrlPath.includes("products")) {
+              $("#nav-accordion #Providers").addClass("backcolor");
+          } else if (UrlPath.includes("Companies") || UrlPath.includes("companies")) {
+              $("#nav-accordion #Companies").addClass("backcolor");
+          } else if (UrlPath.includes("Drivers") || UrlPath.includes("drivers")) {
+              $("#nav-accordion #Drivers").addClass("backcolor");
+          } else if (UrlPath.includes("Countries") || UrlPath.includes("countries")) {
+              $("#nav-accordion #Countries").addClass("backcolor");
+          } else if (UrlPath.includes("Users") || UrlPath.includes("users")) {
+              $("#nav-accordion #Users").addClass("backcolor");
+          } else if (UrlPath.includes("Categories") || UrlPath.includes("categories")) {
+              $("#nav-accordion #Categories").addClass("backcolor");
+          } else if (UrlPath.includes("Website") || UrlPath.includes("website")) {
+              $("#nav-accordion #Website").addClass("backcolor");
+          }
+        });
+    </script>
+
+</body>
+</html>

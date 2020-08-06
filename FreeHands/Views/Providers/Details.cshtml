@@ -1,0 +1,610 @@
+﻿@model FreeHands.Models.Provider
+
+@{
+    ViewBag.Title = "تفاصيل مقدم الخدمة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+     .card-two header .avatar img {
+            position: absolute;
+            top: 14%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: 100px;
+        }
+
+        .card-two h3 {
+            position: relative;
+            margin: 100px 0 24px;
+            text-align: center;
+        }
+
+        .card-two .desc {
+            padding: 0 1rem 2rem;
+            text-align: center;
+            line-height: 1.5;
+            color: #0c0505;
+            font-size: 24px;
+        }
+        .star-ratings-sprite {
+            background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+            font-size: 0;
+            height: 21px;
+            line-height: 0;
+            overflow: hidden;
+            text-indent: -999em;
+            width: 110px;
+            margin: 0 auto;
+        }
+
+
+        .star-ratings-sprite-rating {
+            background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+            background-position: 0 100%;
+            float: left;
+            height: 21px;
+            display: block;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .card-two .contacts a .fa {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            line-height: 39px;
+            overflow: hidden;
+            text-align: center;
+            border: 2px solid #1976d2;
+            border-radius: 50%;
+        }
+
+        .contacts {
+            text-align: center;
+        }
+
+        .card-two .contacts a .fa :hover {
+            color: red;
+        }
+</style>
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+
+        <!-- Container fluid  -->
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <div class="row">
+                <!-- Column -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-two">
+                                <header>
+                                    <div class="avatar">
+                                        <img src="~/Uploads/Provider_Photo/@(Model.ID).jpg" alt="@Model.TradeName" />
+                                    </div>
+                                </header>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <h3>@Model.TradeName</h3>
+                                <div class="desc">
+                                    العنوان :  @Model.Location  
+                                    <br />
+                                    متاح ؟ :  @if (Model.IsAvaiable) { <span>نعم</span>}
+                                    else
+                                    {<span>لا</span> }
+                                    <br />
+
+                                    متميز ؟ :  @if (Model.IsExcelent)
+                                    {<span>نعم</span> }
+                                    else
+                                    {<span>لا</span> }
+                                    <br />
+                                    مستخدم للدفع الالكتروني ؟ :@if (Model.AllowVisa)
+                                    { <span>نعم</span>}
+                                    else
+                                    {<span>لا</span> }
+                                    <br />
+                                    الرقم المعروف : @Model.KnownNumber
+                                    <br/>
+                                    الخصم علي المنتجات :@Model.Discount %
+                                </div>
+                                <div class="desc">
+                                    <div class="cont">
+                                        @{ 
+                                            double rate = Model.Provider_Rates.Where(r => r.Rate.HasValue).Count() > 0 ? Model.Provider_Rates.Where(r => r.Rate.HasValue).Select(r => r.Rate.Value).Average() : 0;
+                                            double data = rate * 10;
+                                         }
+                                        <div class="star-ratings-sprite"><span style="width:@(data)%" class="star-ratings-sprite-rating"></span></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-5 m-b-xs">
+                                    <button class="btn btn-info" id="open">
+                                        بحث بالتاريخ
+                                    </button>
+                                    <button class="btn btn-info" onclick="showpopup1();">
+                                         البطاقة الشخصية
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+                <!-- Column -->
+                <div class="col-lg-12">
+                    <div class="card" style="text-align:right;">
+                        <div class="tab-content">
+                            <!--Reservations-->
+                            <div class="tab-pane active" id="Reservations" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-title">
+                                            <h4 class="btn btn-info"> المنتجات </h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table" id="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <td> الاسم </td>
+                                                            <td> عدد مرات الطلب </td>
+                                                            <td> السعر </td>
+                                                            <td><i class="fa fa-cogs"></i></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.Products)
+                                                        {
+                                                            <tr id="@(item.ID)">
+                                                                <td>@item.Name </td>
+                                                                <td> @item.Orders.Count </td>
+                                                                <td> @item.Price </td>
+                                                                <td>
+                                                                    <button class="btn btn-danger" onclick="DeleteProduct(@(item.ID));">
+                                                                        <i class="fa fa-trash "></i>
+                                                                    </button>
+                                                                    <a target="_blank" class="btn btn-info" href="~/Products/Details/@item.ID">
+                                                                        <i class="fa fa-info-circle"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-title">
+                                            <h4 class="btn btn-info"> العروض </h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table" id="table1">
+                                                    <thead>
+                                                        <tr>
+                                                            <td> اسم العرض </td>
+                                                            <td> اسم المنتج </td>
+                                                            <td>التفاصيل</td>
+                                                            <td> العدد </td>
+                                                            <td> السعر </td>
+                                                            <td> متاح </td>
+                                                            <td>حذف</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.Offers)
+                                                        {
+                                                            <tr id="@(item.ID)">
+                                                                <td>  @item.Name </td>
+                                                                <td> @item.Product.Name</td>
+                                                                <td>@item.Description</td>
+                                                                <td> @item.Orders.Count </td>                                                                
+                                                                <td> @item.Price </td>
+                                                                @if (item.Active)
+                                                                {
+                                                                    <td>
+                                                                        <i class="fa fa-check"></i>
+                                                                    </td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>
+                                                                        <i class="fa error"></i>
+                                                                    </td>
+                                                                }
+                                                                <td id="@(item.ID)"> 
+                                                                <button class="btn btn-danger" onclick="DeleteOffer(@(item.ID));">
+                                                                        <i class="fa fa-trash "></i>
+                                                                        حذف
+                                                                    </button>
+                                                                </td>
+                                                                
+                                                            </tr>
+
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end Reservations-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+            </div>
+            <!-- End PAge Content -->
+        </div>
+        <!-- End Container fluid  -->
+
+        <style>
+            .tip {
+                width: 0px;
+                height: 0px;
+                position: absolute;
+                background: transparent;
+                border: 10px solid #ccc;
+            }
+
+            .tip-up {
+                top: -25px; /* Same as body margin top + border */
+                left: 10px;
+                border-right-color: transparent;
+                border-left-color: transparent;
+                border-top-color: transparent;
+            }
+
+            .tip-down {
+                bottom: -25px;
+                left: 10px;
+                border-right-color: transparent;
+                border-left-color: transparent;
+                border-bottom-color: transparent;
+            }
+
+            .tip-left {
+                top: 10px;
+                left: -25px;
+                border-top-color: transparent;
+                border-left-color: transparent;
+                border-bottom-color: transparent;
+            }
+
+            .tip-right {
+                top: 10px;
+                right: -25px;
+                border-top-color: transparent;
+                border-right-color: transparent;
+                border-bottom-color: transparent;
+            }
+
+            .dialogbox .body {
+                position: relative;
+                max-width: 500px;
+                height: auto;
+                margin: 20px 10px;
+                padding: 5px;
+                background-color: #DADADA;
+                border-radius: 3px;
+                border: 5px solid #ccc;
+            }
+
+            .body .message {
+                min-height: 30px;
+                border-radius: 3px;
+                font-family: Arial;
+                font-size: 24px;
+                line-height: 1.5;
+                color: #797979;
+            }
+        </style>
+        <div class="container">
+            <div class="dialogbox">
+                <h4 class="btn btn-info"> تعليقات </h4>
+                @foreach (var item in Model.Provider_Rates)
+                {
+                    <div class="dialogbox" id="@(item.ID)">
+                        <div class="body">
+                            <span class="tip tip-right"></span>
+                            <div class="message" id="mm">
+                                <span> @item.Comment</span>
+                                <span style="float:left;">
+                                    <button class="btn btn-danger" onclick="Delete(@(item.ID));">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </span>
+                                @if (item.Avaiable)
+                                {
+                                    <span style="float:left;" id="@(item.ID)">
+                                        <button class="btn btn-default" onclick="Hide(@(item.ID),false);">
+                                            <i class="fa fa-eye-slash"></i>
+                                        </button>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span style="float:left;" id="@(item.ID)">
+                                        <button class="btn btn-default" onclick="Show(@(item.ID),true);">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </span>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+
+
+    </section>
+</section>
+<div id="popup" class="modal">
+    <div class="modal-content">
+        <div class="close">
+            &times;
+        </div>
+        <form onsubmit="return false">
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="FromDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> من  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="ToDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> الي  </label>
+            </div>
+            <div class="form-group row text-center">
+                <button class="btn btn-primary" onclick="Search(@(Model.ID));" value="">بحث</button>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <label id="count"></label>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">(Without Visa) عدد الطلبات  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <label id="Total"></label>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">(Without Visa) الاجمالي  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <label id="Totalf"></label>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">(Without Visa) الاجمالي بعد الضريبة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <label id="countv"></label>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">(Use Visa)  عدد الطلبات  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <label id="Totalv"></label>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">(Use Visa) الاجمالي  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <label id="Totalvf"></label>
+                </div>
+                <label for="" class="col-sm-3 col-form-label">(Use Visa) الاجمالي بعد الضريبة   </label>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="popup1" class="modal">
+    <div class="modal-content">
+        <div onclick="hide();" class="close">
+            &times;
+        </div>
+        <form>
+            <div class="form-group row text-center">
+                <img src="~/Uploads/Provider_Identity/@(Model.ID).jpg" width="300" height="300" alt="" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm('   هل تريد مسح هذا التعليق بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("DeleteComment", "Providers")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("div#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+    }
+    function Hide(i,v) {
+
+        var Confirmed= confirm('   هل تريد اخفاء هذا التعليق بالفعل ؟');
+
+        if (Confirmed == true)
+        {
+            $.post("@Url.Action("HideShowComment", "Providers")", {
+
+            id: i,
+            visible:v
+        },
+        function (data) {
+            $("#mm span#" + data + "").html("<button class='btn btn-default' onclick='Show("+data+",true);'><i class='fa fa-eye'></i></button>");
+        }
+
+    )
+      }
+
+
+    }
+    function Show(i,v) {
+
+        var Confirmed= confirm('   هل تريد اظهار هذا التعليق بالفعل ؟');
+
+        if (Confirmed == true)
+        {
+            $.post("@Url.Action("HideShowComment", "Providers")", {
+
+                id: i,
+                visible:v
+
+        },
+        function (data) {
+            $("#mm span#" + data + "").html("<button class='btn btn-default' onclick='Hide(" + data + ",false);'><i class='fa fa-eye-slash'></i></button>");
+        }
+
+)
+      }
+
+
+    }
+
+
+</script>
+<script>
+
+
+    function DeleteProduct(i) {
+
+      var Confirmed= confirm(' هل تريد مسح هذا المنتج بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Products")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#table tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function DeleteOffer(i) {
+
+      var Confirmed= confirm(' هل تريد مسح هذا العرض بالفعل ؟ .. لن يتم مسح العرض اذا سبق طلبه');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("DeleteOffer", "Products")", {
+
+          id: i
+
+          }, 
+      function (data) {
+          
+              $("#table1 tr#" + data + "").remove();
+      }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+
+
+    function Search(i) {
+
+      var Confirmed= confirm('هل تريد البحث بهذا التاريخ ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("ProviderData", "Providers")", {
+              id:i,
+              FromDate: $("#FromDate").val(),
+              ToDate: $("#ToDate").val(),
+          },
+      function (data) {
+
+          $("#count").html(data.Count);
+          $("#Total").html(data.Total);
+          $("#Totalf").html(data.TotalF);
+          $("#countv").html(data.CountV);
+          $("#Totalv").html(data.TotalV);
+          $("#Totalvf").html(data.TotalVF);
+      }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+    var popup1 = document.getElementById("popup1");
+    function showpopup1() {
+        popup1.style.display = "block";
+    }
+    function hide() {
+        popup1.style.display = "none";
+    }
+</script>
+
+

@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <title>تسجيل الدخول</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- bootstrap-css -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <link rel="icon" href="~/Content/HTML/img/logo.png" type="image/x-icon">
+    <!-- //bootstrap-css -->
+    <!-- Custom CSS -->
+    <link href="~/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="~/Content/css/style-responsive.css" rel="stylesheet" />
+    <!-- font CSS -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <!-- font-awesome icons -->
+    <link rel="stylesheet" href="~/Content/css/font.css" type="text/css" />
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/morris.css" type="text/css" />
+    <!-- calendar -->
+    <link rel="stylesheet" href="~/Content/css/monthly.css">
+    <!-- //calendar -->
+    <!-- //font-awesome icons -->
+    <script src="~/Scripts/js/jquery2.0.3.min.js"></script>
+    <script src="~/Scripts/js/raphael-min.js"></script>
+    <script src="~/Scripts/js/morris.js"></script>
+</head>
+<body>
+    <div class="log-w3">
+        <div class="w3layouts-main">
+           <h2> تسجيل الدخول لصفحات التحكم </h2>
+            @if (ViewBag.error != null)
+            {
+               <h4><span style="color:red;float:none">@ViewBag.error</span></h4> 
+            }
+            <form action="~/Auth/Login" method="post">
+                <input type="text" class="ggg" name="Name" placeholder="اسم المسئول " required="">
+                <input type="password" class="ggg" name="Password" placeholder="كلمة المرور " required="">
+                <div class="clearfix"></div>
+                <input type="submit" value="تسجيل الدخول" name="login">
+                
+            </form>           
+        </div>
+       
+    </div>
+   
+    <script src="~/Scripts/js/bootstrap.js"></script>
+    <script src="~/Scripts/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="~/Scripts/js/scripts.js"></script>
+    <script src="~/Scripts/js/jquery.slimscroll.js"></script>
+    <script src="~/Scripts/js/jquery.nicescroll.js"></script>
+    <script src="~/Scripts/js/jquery.scrollTo.js"></script>
+</body>
+</html>

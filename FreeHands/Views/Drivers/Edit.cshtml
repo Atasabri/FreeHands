@@ -1,0 +1,166 @@
+﻿@model FreeHands.Models.Driver
+@using FreeHands.Models
+@{
+    ViewBag.Title = "تعديل السائق";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="container text-center">
+        </div>
+        <br />
+        <form method="post" action="~/Drivers/Edit" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ID", Model.ID)
+            @Html.Hidden("Token", Model.Token)
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" value="@Model.FirstName" name="FirstName" required>
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label">الاسم الاول</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" value="@Model.LastName" name="LastName" required>
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label">الاسم الاخير</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" onblur="CheckEmailEdit();" id="email" value="@Model.Email" name="Email" required>
+                <label id="status"></label>
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label"> البريد الالكتروني</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" value="@Model.Password" name="Password" required>
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label"> كلمة المرور</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" value="@Model.Phone" name="Phone" required>
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label"> الهاتف</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" value="@Model.Location" name="Location" required>
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label"> المكان</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model=>model.Visible)
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label">  متاح ؟</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+
+                   @Html.DropDownList("Company_ID", new SelectList(new DB().Companies, "ID", "Name", Model.Company_ID),"No Company",new {@class="form-control" })
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label"> شركة التوصيل</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.DropDownList("Country_ID", new SelectList(new DB().Countries, "ID", "Name", Model.Country_ID), new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label">الدولة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.DropDownList("City_ID", new SelectList(new DB().Cities, "ID", "Name", Model.City_ID), new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label">المدينة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input id="File1" type="file" name="Photo" />
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label">  الصورة</label>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input id="File2" type="file" name="Driver_License" />
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label">  صورة الرخصة</label>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input id="File3" type="file" name="Driver_Car_License" />
+                </div>
+                <label for="inputPassword" class="col-sm-2 col-form-label">  صورة رخصة السيارة</label>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-sm-12" id="btn1">
+                    <button class="btn btn-success" type="submit"> حفظ </button>
+                </div>
+            </div>
+        </form>
+        @if(ViewBag.error!=null)
+        {
+            <span style="color:red">@ViewBag.error</span>
+        }
+    </section>
+</section>
+
+<script>
+    function CheckEmailEdit() {
+
+
+        $("#status").html("Checking...")
+
+
+        $.post("@Url.Action("CheckEmailEdit","Company")", {
+
+            email: $("#email").val(),
+            id: $("#ID").val()
+        },
+
+            function (data) {
+                if(data==1)
+                {
+                    $("#btn1").html("");
+                    $("#btn1").html("<button type='submit' class='btn btn-success'>حفظ</button>");
+                    $("#status").html('<font color="Green">تستطيع استخدام هذا البريد</font>');
+                } else {
+                    $("#btn1").html("");
+                    $("#status").html('<font color="Red">لا يمكن استخدام هذا البريد</font>');
+                }
+            }
+            )
+    }
+</script>
+<script>
+    $(document).ready(function(){
+          $("#Country_ID").change(function(){
+              $.get("/Company/GetCities", { CountryID: $("#Country_ID").val() }, function (data) {
+                  $("#City_ID").empty();
+                  $.each(data, function (index, row) {
+                      $("#City_ID").append("<option value='" + row.ID + "'>" + row.Name + "</option>");
+                  });
+              });
+           });
+        });
+</script>
+

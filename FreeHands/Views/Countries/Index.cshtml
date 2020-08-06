@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FreeHands.Models.Country>
+
+@{
+    ViewBag.Title = "الدول";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        الدول (@Model.Count())
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> الدولة </td>
+                                <td>عدد المستخدمين</td>
+                                <td>عدد المقدمين</td>
+                                <td>عدد السائقين</td>
+                                <td>#</td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> الدولة </td>
+                                <td>عدد المستخدمين</td>
+                                <td>عدد المقدمين</td>
+                                <td>عدد السائقين</td>
+                                <td>#</td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Users.Count</td>
+                                    <td>@item.Providers.Count</td>
+                                    <td>@item.Drivers.Count</td>
+                                    <td>
+                                        <a href="~/Countries/Cities/@(item.ID)" class="btn btn-primary">
+                                            <i class="fa fa-info "></i>
+                                            المدن
+                                        </a>
+                                        <a href="~/Countries/Country/@(item.ID)" class="btn btn-primary">
+                                            <i class="fa fa-info "></i>
+                                            المستخدمين
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+

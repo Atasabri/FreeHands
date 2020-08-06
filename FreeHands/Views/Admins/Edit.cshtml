@@ -1,0 +1,65 @@
+﻿@model FreeHands.Models.Admin
+
+@{
+    ViewBag.Title = "تعديل المدير";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+  <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="container text-center">
+                       
+            <a href="~/Admins/Details/@Model.ID" class="btn btn-info">
+                <i class="fa fa-info"></i>
+                تفاصيل
+            </a>
+        </div>
+        <br />
+        <form action="~/Admins/Edit" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ID)
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control",Required= "Required" } })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> اسم المستخدم </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", Required = "Required" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> كلمة المرور </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.IsManager)
+                    @Html.ValidationMessageFor(model => model.IsManager, "", new { @class = "text-danger" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> هو مدير </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <input type="file" name="Photo">
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> صورة </label>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <input class="btn btn-success" type="submit" value="حفظ">
+                </div>
+            </div>
+        </form>
+        @if (ViewBag.error != null)
+        {
+            <span style="color:red">@ViewBag.error</span>
+        }
+    </section>
+</section>

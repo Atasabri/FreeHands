@@ -1,0 +1,211 @@
+﻿@model IEnumerable<FreeHands.Models.Order>
+
+@{
+    ViewBag.Title = "الطلبات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .container {
+      width: 600px;
+  }
+  .progressbar {
+      counter-reset: step;
+  }
+  .progressbar li {
+      list-style-type: none;
+      width: 25%;
+      float: left;
+      font-size: 12px;
+      position: relative;
+      text-align: center;
+      text-transform: uppercase;
+      color: #7d7d7d;
+  }
+  .progressbar li:before {
+      width: 30px;
+      height: 30px;
+      content: counter(step);
+      counter-increment: step;
+      line-height: 30px;
+      border: 2px solid #7d7d7d;
+      display: block;
+      text-align: center;
+      margin: 0 auto 10px auto;
+      border-radius: 50%;
+      background-color: white;
+  }
+  .progressbar li:after {
+      width: 100%;
+      height: 2px;
+      content: '';
+      position: absolute;
+      background-color: #7d7d7d;
+      top: 15px;
+      left: -50%;
+      z-index: -1;
+  }
+  .progressbar li:first-child:after {
+      content: none;
+  }
+  .progressbar li.active {
+      color: green;
+  }
+  .progressbar li.active:before {
+      border-color: #55b776;
+  }
+  .progressbar li.active + li:after {
+      background-color: #55b776;
+  }
+</style>
+        <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        (@Model.Count()) من الطلبات  
+                        <div class="col-sm-5 m-b-xs">
+                            <button class="btn btn-info" id="open">
+                                بحث بالتاريخ
+                            </button>
+                            <button class="btn btn-info" onclick="showpopup1();">
+                                تفاصيل الطلبات
+                            </button>
+                        </div>
+                        
+                    </div>
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td> التاريخ </td>
+                                <td> اسم المنتج </td>
+                                <td>العدد</td>
+                                <td>الاجمالي</td>
+                                <td>اسم الاسرة</td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> التاريخ </td>
+                                <td> اسم المنتج </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody id="test">
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@(item.ID)">
+                                    <td><a href="~/Orders/Details/@(item.ID)" title="تفاصيل" class="btn btn-primary">
+                                      @item.ID
+                                     </a></td>
+                                    <td> @item.Date.ToString("MM/dd/yyyy") </td>
+                                    <td><a target="_blank" href="~/Products/Details/@(item.Product_ID)">@item.Product.Name</a> </td>
+                                   <td>@item.Number</td>
+                                    <td>@item.Total</td>
+                                    <td><a href="~/Providers/Details/@(item.Product.Provider_ID)" title="تفاصيل">
+                                   @item.Product.Provider.TradeName
+                                     </a> </td>
+                                     <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+<div id="popup" class="modal">
+    <div class="modal-content">
+        <div class="close">
+            &times;
+        </div>
+        <form action="~/Orders/GetOrders" method="post">
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" name="FromDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> من  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" name="ToDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> الي  </label>
+            </div>
+            <div class="form-group row text-center">
+                <button class="btn btn-primary" type="submit" value="">بحث</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="popup1" class="modal">
+    <div class="modal-content">
+        <div onclick="hide();" class="close">
+            &times;
+        </div>
+        <form>
+            <div class="form-group row text-center">
+                <a target="_blank" href="~/Orders/StillInprocess">  طلبات لم تصل بعد (@Model.Where(x => x.IsOrderd&&!x.ISArrivedToUser).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Orders/NoDriver">     طلبات لا يوجد لها سائقين (@Model.Where(x =>x.IsOrderd&& !x.Driver_ID.HasValue).Count()) </a>
+                <br />
+                <a target="_blank" href="~/Orders/Problem">     طلبات لم يستلمها العميل   (@Model.Where(x =>x.IsOrderd&& x.ProblemInArriveToUser).Count()) </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm(' هل تريد مسح هذا الطلب بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Orders")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+    var popup1 = document.getElementById("popup1");
+    function showpopup1() {
+        popup1.style.display = "block";
+    }
+
+    function hide() {
+        popup1.style.display = "none";
+    }
+</script>

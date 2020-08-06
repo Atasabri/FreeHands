@@ -1,0 +1,185 @@
+﻿@model IEnumerable<FreeHands.Models.Company>
+
+@{
+    ViewBag.Title = "شركات التوصيل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <!--main content start-->
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    @if (ViewBag.error != null)
+                    {
+                        <div class="panel-heading" style="margin:5px;">
+                            <span style="color:red">@ViewBag.error</span>
+                        </div>
+                    }
+                    <div class="panel-heading" style="margin:5px;">
+                        شركات التوصيل
+                        <div class="col-sm-5 m-b-xs">
+                            <button class="btn btn-info" id="open">
+                                <i class="fa fa-plus-circle"></i>
+                                اضافة
+                            </button>
+                            <button class="btn btn-info" onclick="showpopup1();">
+                                 بحث بالتاريخ
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> الاسم </td>
+                                <td> العنوان </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> الاسم </td>
+                                <td> العنوان </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@(item.ID)">
+                                    <td> @item.Name </td>
+                                    <td> @item.Address </td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+                                        <a href="~/Companies/Edit/@(item.ID)" title="تعديل" class="btn btn-primary">
+                                            <i class="fa fa-cog "></i>
+                                        </a>
+                                        <a href="~/Companies/Details/@(item.ID)" title="تفاصيل" class="btn btn-info">
+                                            <i class="fa fa-info-circle "></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+  
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+<div id="popup" class="modal">
+    <div class="modal-content">
+        <div class="close">
+            &times;
+        </div>
+        <form action="~/Companies/Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Name" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> اسم الشركة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="UserName" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label">  اسم المستخدم  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" name="Password" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label">  كلمة المرور </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Address" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label">  العنوان</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Phone" required>
+                </div>
+                <label for="" class="col-sm-4 col-form-label">  الهاتف</label>
+            </div>
+            <div class="form-group row text-center">
+                <input class="btn btn-success" type="submit" value="اضافة">
+            </div>
+        </form>
+    </div>
+</div>
+<div id="popup1" class="modal">
+    <div class="modal-content">
+        <div onclick="hide();" class="close">
+            &times;
+        </div>
+        <form action="~/Companies/Data" method="post">
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="FromDate" name="FromDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> من  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="date" id="ToDate" name="ToDate" class="form-control" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> الي  </label>
+            </div>
+            <div class="form-group row text-center">
+                <button class="btn btn-primary" type="submit">بحث</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm(' هل تريد مسح هذه الشركة بالفعل ؟ سيتم مسح كل السائقين !!');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Companies")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>
+<script>
+    var popup1 = document.getElementById("popup1");
+    function showpopup1() {
+        popup1.style.display = "block";
+    }
+
+    function hide() {
+        popup1.style.display = "none";
+    }
+</script>

@@ -1,0 +1,205 @@
+﻿@model FreeHands.Models.Driver
+
+@{
+    ViewBag.Title = "بيانات السائق";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .card-two header .avatar img {
+        position: absolute;
+        top: 14%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 100px;
+    }
+
+    .card-two h3 {
+        position: relative;
+        margin: 100px 0 24px;
+        text-align: center;
+    }
+
+    .card-two .desc {
+        padding: 0 1rem 2rem;
+        text-align: center;
+        line-height: 1.5;
+        color: #0c0505;
+        font-size: 24px;
+    }
+
+    .star-ratings-sprite {
+        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+        font-size: 0;
+        height: 21px;
+        line-height: 0;
+        overflow: hidden;
+        text-indent: -999em;
+        width: 110px;
+        margin: 0 auto;
+    }
+
+
+    .star-ratings-sprite-rating {
+        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+        background-position: 0 100%;
+        float: left;
+        height: 21px;
+        display: block;
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 25px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .card-two .contacts a .fa {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        line-height: 39px;
+        overflow: hidden;
+        text-align: center;
+        border: 2px solid #1976d2;
+        border-radius: 50%;
+    }
+
+    .contacts {
+        text-align: center;
+    }
+
+    .card-two .contacts a .fa :hover {
+        color: red;
+    }
+</style>
+
+
+  <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+
+        <!-- Container fluid  -->
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <div class="row">
+                <!-- Column -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-two">
+                                <header>
+                                    <div class="avatar">
+                                        <img src="~/Uploads/Driver_Photo/@(Model.ID).jpg" alt="@Model.FirstName" />
+                                    </div>
+                                </header>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <h3> @Model.FirstName @Model.LastName</h3>
+                                <div class="desc">
+                                    @Model.Phone<br />
+                                    @Model.Location<br />
+                                    @Model.Email<br />
+                                    @Model.Password <br />
+                                   Company :  @Html.DisplayFor(model=> model.Company.Name) <br />
+                                   Visible : @Html.DisplayFor(model=>model.Visible)<br />
+                                </div>
+                            </div>
+                            <div class="col-sm-5 m-b-xs">
+                                <button class="btn btn-info" onclick="showpopup1();">
+                                     رخصة القيادة ورخصة العربة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+                <!-- Column -->
+            </div>
+            <!-- End PAge Content -->
+        </div>
+        <!-- End Container fluid  -->
+    </section>
+</section>
+<!--main content end-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        الطلبات
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> التاريخ </td>
+                                <td>  المنتج </td>
+                                <td> # </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> التاريخ </td>
+                                <td>  المنتج </td>
+                                <td> # </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model.Orders)
+                            {
+                                <tr>
+                                    <td> @item.Date </td>
+                                    <td>@item.Product.Name</td>
+                                    <td> @Html.ActionLink("التفاصيل","Details","Orders",new {id=item.ID },null)</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+<div id="popup1" class="modal">
+    <div class="modal-content">
+        <div onclick="hide();" class="close">
+            &times;
+        </div>
+        <form>
+            <div class="form-group row text-center">
+                <img src="~/Uploads/Driver_License/@(Model.ID).jpg" width="300" height="300" alt="" />
+                <br />
+                <br />
+                <img src="~/Uploads/Driver_Car_License/@(Model.ID).jpg" width="300" height="300" alt="" />
+
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    var popup1 = document.getElementById("popup1");
+    function showpopup1() {
+        popup1.style.display = "block";
+    }
+    function hide() {
+        popup1.style.display = "none";
+    }
+</script>

@@ -1,0 +1,57 @@
+﻿@model FreeHands.Models.Admin
+
+@{
+    ViewBag.Title = "تفاصيل المدير";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <a href="~/Admins/Edit/@Model.ID" class="btn btn-info">
+            <i class="fa fa-info"></i>
+            تعديل
+        </a>
+        <!-- //market-->
+        <div class="market-updates">
+            <div class="col-md-3 market-update-gd">
+                <div class="market-update-block1">
+                    <div class="col-md-8 market-update-left">
+                        <h4> اسم المستخدم </h4>
+                        <h3> @Html.DisplayFor(model => model.UserName)</h3>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <div class="col-md-3 market-update-gd">
+                <div class="market-update-block1">
+                    <div class="col-md-8 market-update-left">
+                        <h4> كلمة المرور </h4>
+                        <h3> @Html.DisplayFor(model => model.Password) </h3>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div><div class="col-md-3 market-update-gd">
+                <div class="market-update-block1">
+                    <div class="col-md-8 market-update-left">
+                        <h4> مدير ؟ </h4>
+                        <h3> @Html.DisplayFor(model => model.IsManager)  </h3>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div><div class="col-md-3 market-update-gd">
+                <div class="market-update-block1">
+                    <div class="col-md-8 market-update-left">
+                        <h4> الصورة </h4>
+                        <h3>
+                            <img src="~/Uploads/Admins/@(Model.ID).jpg" style="border-radius:50%; width:60%;" />
+                        </h3>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <!-- //market-->
+    </section>
+</section>
+<!--main content end-->

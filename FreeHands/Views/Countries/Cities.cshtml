@@ -1,0 +1,53 @@
+﻿@model IEnumerable<FreeHands.Models.City>
+
+@{
+    ViewBag.Title = "المدن";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        المدن (@Model.Count())
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> المدينة </td>
+                                <td>عدد المستخدمين</td>
+                                <td>عدد المقدمين</td>
+                                <td>عدد السائقين</td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> المدينة </td>
+                                <td>عدد المستخدمين</td>
+                                <td>عدد المقدمين</td>
+                                <td>عدد السائقين</td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Users.Count</td>
+                                    <td>@item.Providers.Count</td>
+                                    <td>@item.Drivers.Count</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+

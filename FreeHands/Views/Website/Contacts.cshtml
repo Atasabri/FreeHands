@@ -1,0 +1,115 @@
+﻿@model IEnumerable<FreeHands.Models.Contact>
+@{
+    ViewBag.Title = "الشكاوي والرسائل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        الشكاوي والرسائل
+
+                    </div>
+                    <form action="~/Website/SendMail" method="post" enctype="multipart/form-data">
+                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <td> البريد الالكتروني </td>
+                                    <td>العنوان</td>
+                                    <td>  الرسالة </td>
+                                    <td>
+                                        <i class="fa fa-trash"></i>
+                                    </td>
+                                    <td>
+                                        <input class="check-mark" type="checkbox" onclick="toggle(this)" />
+                                    </td>
+
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td> البريد الالكتروني </td>
+                                    <td>العنوان</td>
+                                    <td>  الرسالة </td>
+                                    <td>
+                                        <i class="fa fa-trash"></i>
+                                    </td>
+
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="@(item.ID)">
+                                        <td>@item.Email</td>
+                                        <td>@item.Subject</td>
+                                        <td>@item.Message </td>
+                                        <td>
+                                            <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                                <i class="fa fa-trash "></i>
+                                            </button>
+                                        </td>
+                                        <td><input type="checkbox" value="@item.Email" name="fooa" /></td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="input-group">
+                            <span class="input-group col-md-4" id="basic-addon3">عنوان الرسالة </span>
+                            <input type="text" name="Subject" required class="form-control col-md-4" id="basic-url" aria-describedby="basic-addon3">
+                        </div> <br />
+                        <div class="input-group">
+                            <span class="input-group col-md-4" id="basic-addon3">قم بتحميل ملف الرسالة  </span>
+                            <input type="file" name="file" required class="col-md-8" id="basic-url" aria-describedby="basic-addon3" multiple>
+                        </div> <br />
+
+                        <button type="submit" class="btn btn-success">ارسال رسالة بريد </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+<script>
+        function toggle(source) {
+            var all = document.querySelectorAll('input[type="checkbox"]');
+            for (var i = 0; i < all.length; i++) {
+                if (all[i] != source)
+                    all[i].checked = source.checked;
+            }
+        }
+</script>
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm(' هل تريد مسح هذه الشكوي  بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("DeleteContact", "Website")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>

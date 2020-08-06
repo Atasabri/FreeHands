@@ -1,0 +1,348 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@model FreeHands.Models.Order
+
+@{
+    ViewBag.Title = "تفاصيل الطلب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+        float: right;
+    }
+</style>
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <!-- //market-->
+        <div class="row">
+            <div class="col-md-6 market-update-gd">
+                <div class="market-update-block1">
+                    <div class="col-md-4 market-update-right">
+                    </div>
+                    <div class="text-center">
+                        <h4> رقم الطلب  </h4>
+                        <h3> @Model.ID </h3>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 market-update-gd">
+                <div class="market-update-block1">
+                    <div class="col-md-4 market-update-right">
+                    </div>
+                    <div class="text-center">
+                        <h4> حالة الطلب </h4>
+                        @if (Model.Status != null)
+                        {
+                            <h3> @Model.Status</h3>
+
+                        }
+                        else
+                        {
+                            <h3> لاتوجد حاله حاليا </h3>
+                        }
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="market-updates">
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="col-md-4 market-update-right">
+                        </div>
+                        <div class="text-center">
+                            <h4> تاريخ وساعة الطلب </h4>
+                            <h3> @Model.Date </h3>
+                            <h3>&nbsp;</h3>
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="col-md-4 market-update-right">
+                        </div>
+                        <div class="text-center">
+                            <h4> وقت التسليم المتوقع </h4>
+                            <h3> @Model.DateTimeNeeded </h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="col-md-4 market-update-right">
+                        </div>
+                        <div class="text-center">
+                            <h4> مقدم الخدمة </h4>
+                            <h3><a target="_blank" href="~/Providers/Details/@(Model.Product.Provider_ID)">@Model.Product.Provider.TradeName </a></h3>
+                            <h3>&nbsp;</h3>
+                            <h3>&nbsp;</h3>
+
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="col-md-4 market-update-right">
+                        </div>
+                        <div class="text-center">
+                            <h4> هاتف مقدم الخدمة  </h4>
+                            <h3> @Model.Product.Provider.Phone </h3>
+                            <h3>&nbsp;</h3>
+                            <h3>&nbsp;</h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="market-updates">
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="col-md-4 market-update-right">
+                        </div>
+                        <div class="text-center">
+                            <h4> سعر التوصيل  </h4>
+                            <h3> @Model.Delivery </h3>
+                            <h3>&nbsp;</h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+                @if (Model.IsUseVisa)
+                {
+                    <div class="col-md-3 market-update-gd">
+                        <div class="market-update-block1">
+                            <div class="text-center">
+                                <h4> ضريبة الدفع الالكتروني </h4>
+                                <h3> @Model.TaxForVisa % </h3>
+
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-3 market-update-gd">
+                        <div class="market-update-block1">
+                            <div class="text-center">
+                                <h4> ضريبة الدفع الالكتروني </h4>
+                                <h3> الدفع كاش </h3>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="col-md-4 market-update-right">
+                        </div>
+                        <div class="text-center">
+                            <h4> الدفع الالكتروني </h4>
+                            @if (Model.IsUseVisa)
+                            {
+                                <h3>دفع الكتروني</h3>
+                                <h3>&nbsp;</h3>
+                            }
+                            else
+                            {
+                                <h3>دفع كاش</h3>
+                                <h3>&nbsp;</h3>
+                            }
+
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                @if (Model.Discount.HasValue)
+                {
+                    <div class="col-md-3 market-update-gd">
+                        <div class="market-update-block1">
+                            <div class="col-md-4 market-update-right">
+                                <i class="fa fa-user"> </i>
+                            </div>
+                            <div class="col-md-8 market-update-left">
+                                <h4> الخصم </h4>
+                                <h3> @Model.Discount </h3>
+                                <h3>&nbsp;</h3>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="market-updates">
+                <div class="col-md-12 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="text-center">
+                            <h4> اجمالي المستحق على العميل </h4>
+                            <h3>@Model.Total</h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- row -->
+
+
+        <div class="row">
+            <div class="market-updates">
+                <div class="col-md-12 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="text-center">
+                            <h4> تفاصيل الطلب </h4>
+                            <h3>اسم المنتج :  @Model.Product.Name</h3>
+                            <h3>عدد الوجبات:  @Model.Number</h3>
+                            <h3> الاضافات : @Model.OrderOptions.Sum(x => x.Option.Price) </h3>
+                            @if (@Model.Offer_ID != null)
+                            {
+                                <h4>   العرض</h4>
+                                <h3>اسم العرض : @Model.Offer.Name </h3>
+                                <h3>السعر :  @Model.Offer.Price </h3>
+                            }
+                            else
+                            {
+                                <h4> المنتج + الاضافات </h4>
+                                <h3> المنتج : @Model.Product.Name </h3>
+                                <h3>السعر : @Model.Product.Price </h3>
+                                <h3> الاضافات : @Model.OrderOptions.Sum(x => x.Option.Price) </h3>
+                            }
+                            <h3></h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="market-updates">
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="text-center">
+                            <h4> عدد الوجبات  </h4>
+                            <h3> @Model.Number </h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="text-center">
+                            <h4> هاتف المستخدم </h4>
+                            <h3> @Model.User.Phone </h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="text-center">
+                            <h4> تم الوصول للعميل </h4>
+                            @if (Model.ISArrivedToUser)
+                            {
+                                <h3>تم الوصول للعميل</h3>
+                            }
+                            else
+                            {
+                                <h3>الطلب لم يصل بعد</h3>
+                            }
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="col-md-3 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="col-md-4 market-update-right">
+                            <i class="fa fa-user"> </i>
+                        </div>
+                        <div class="col-md-8 market-update-left">
+                            <h4>  سعر الطلب  </h4>
+                            <h3> @Model.Price </h3>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="market-updates">
+                <div class="col-md-6 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="text-center">
+                            @if (@Model.Offer_ID != null)
+                            {
+                                <h4>   العرض</h4>
+                                <h3>اسم العرض : @Model.Offer.Name </h3>
+                                <h3>السعر :  @Model.Offer.Price </h3>
+                            }
+                            else
+                            {
+                                <h4> المنتج + الاضافات </h4>
+                                <h3> المنتج : @Model.Product.Name </h3>
+                                <h3>السعر : @Model.Product.Price </h3>
+                                <h3> الاضافات : @Model.OrderOptions.Sum(x => x.Option.Price) </h3>
+                            }
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="col-md-6 market-update-gd">
+                    <div class="market-update-block1">
+                        <div class="text-center">
+                            <h4> اسم السائق </h4>
+                            @if (Model.Driver_ID != null)
+                            {
+                                <h3><a target="_blank" href="~/Drivers/Details/@(Model.Driver_ID)">@Model.Driver.FirstName </a>  </h3>
+                                <h3>&nbsp;</h3>
+                                <h3>&nbsp;</h3>
+
+                            }
+                            else
+                            {
+                                <h3>لم يتم الحصول علي سائق</h3>
+                                <h3>&nbsp;</h3>
+                                <h3>&nbsp;</h3>
+                            }
+                        </div>
+
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- row -->
+        <!-- //market-->
+    </section>
+
+</section>
+<!--main content end-->

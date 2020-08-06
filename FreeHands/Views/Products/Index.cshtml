@@ -1,0 +1,158 @@
+﻿@model IEnumerable<FreeHands.Models.Product>
+@using FreeHands.Models
+@{
+    ViewBag.Title = "المنتجات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    @if (ViewBag.error != null)
+                    {
+                        <div class="panel-heading" style="margin:5px;">
+                            <span style="color:red">@ViewBag.error</span>
+                        </div>
+                    }
+                    <div class="panel-heading" style="margin:5px;">
+                        المنتجات (@Model.Count())
+
+                        <div class="col-sm-5 m-b-xs">
+                            <button class="btn btn-info" id="open">
+                                <i class="fa fa-plus-circle"></i>
+                                اضافة
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> اسم المنتج </td>
+                                <td> السعر </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> اسم المنتج </td>
+                                <td> السعر </td>
+                                <td>
+                                    <i class="fa fa-cogs"></i>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr id="@item.ID">
+                                    <td>@item.Name</td>
+                                    <td> @item.Price </td>
+                                    <td>
+                                        <button class="btn btn-danger" title="حذف" onclick="Delete(@(item.ID));">
+                                            <i class="fa fa-trash "></i>
+                                        </button>
+                                        <a href="~/Products/Edit/@item.ID" title="تعديل" class="btn btn-primary">
+                                            <i class="fa fa-cog "></i>
+                                        </a>
+                                        <a class="btn btn-info" title="تفاصيل" href="~/Products/Details/@item.ID">
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+<div id="popup" class="modal">
+    <div class="modal-content">
+        <div class="close">
+            &times;
+        </div>
+        <form action="~/Products/Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="Name" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> اسم المنتج  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="Price" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> السعر </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="TimeToFinish" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> وقت التنفيذ </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    @Html.DropDownList("Provider_ID", new SelectList(new DB().Providers, "ID", "TradeName"), "-اختر مقدم الخدمة-", htmlAttributes: new { @class = "form-control form-control-sm", required = "required" })
+                </div>
+                <label for="inputPassword" class="col-sm-3 col-form-label">مقدم الخدمة</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    @Html.DropDownList("Cat_ID", new SelectList(new DB().Categories, "ID", "Name"), "-اختر النوع-", htmlAttributes: new { @class = "form-control form-control-sm", required = "required" })
+                </div>
+                <label for="inputPassword" class="col-sm-3 col-form-label"> نوع الخدمة</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <textarea type="text" class="form-control" name="Description" required></textarea>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> وصف </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <input type="file" class="form-control" name="Photo" required>
+                </div>
+                <label for="" class="col-sm-3 col-form-label"> صورة المنتج </label>
+            </div>
+            <div class="form-group row text-center">
+                <input class="btn btn-primary" type="submit" value="اضافة">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+
+    function Delete(i) {
+
+      var Confirmed= confirm(' هل تريد مسح هذا المنتج بالفعل ؟');
+
+      if (Confirmed == true)
+      {
+          $.post("@Url.Action("Delete", "Products")", {
+
+          id: i
+
+           },
+      function (data) {
+          $("#example23 tr#" + data + "").remove();
+          }
+
+        )
+      }
+
+
+                       }
+
+
+</script>

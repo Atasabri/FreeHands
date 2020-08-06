@@ -1,0 +1,190 @@
+﻿@model FreeHands.Models.Company
+
+@{
+    ViewBag.Title = "تفاصيل شركة التوصيل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .market-update-right .fa {
+        font-size: 3em;
+        color: white;
+    }
+
+    #btn a {
+        border-radius: 0px;
+        background-color: #5bc0de;
+    }
+
+    .card-two header .avatar img {
+        position: absolute;
+        top: 14%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 67px;
+        border-radius: 100%;
+    }
+
+    .card-two h3 {
+        position: relative;
+        margin: 100px 0 24px;
+        text-align: center;
+    }
+
+    .card-two .desc {
+        padding: 0 1rem 2rem;
+        text-align: center;
+        line-height: 1.5;
+        color: #777;
+        font-size: 24px;
+    }
+</style>
+<style>
+
+        .star-ratings-sprite {
+            background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+            font-size: 0;
+            height: 21px;
+            line-height: 0;
+            overflow: hidden;
+            text-indent: -999em;
+            width: 110px;
+            margin: 0 auto;
+        }
+
+
+        .star-ratings-sprite-rating {
+            background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2605/star-rating-sprite.png") repeat-x;
+            background-position: 0 100%;
+            float: left;
+            height: 21px;
+            display: block;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .card-two .contacts a .fa {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            line-height: 39px;
+            overflow: hidden;
+            text-align: center;
+            border: 2px solid #1976d2;
+            border-radius: 50%;
+        }
+
+        .contacts {
+            text-align: center;
+        }
+
+        .card-two .contacts a .fa :hover {
+            color: red;
+        }
+</style>
+  <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+
+        <!-- Container fluid  -->
+        <div class="container-fluid">
+            <!-- Start Page Content -->
+            <div class="row">
+                <!-- Column -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-two">
+                              
+
+                                <h3> @Model.Name</h3>
+                                <div class="desc">
+                                    @Model.Phone<br/>
+                                    @Model.Address<br/>
+                                    @Model.UserName<br />
+                                    @Model.Password
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column -->
+                <!-- Column -->
+            </div>
+            <!-- End PAge Content -->
+        </div>
+        <!-- End Container fluid  -->
+    </section>
+</section>
+<!--main content end-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive m-t-40">
+                    <div class="panel-heading" style="margin:5px;">
+                        السائقين
+                    </div>
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td> الاسم </td>
+                                <td>  الهاتف </td>
+                                <td> البريد الالكتروني </td>
+                                <td> عددالطلبات </td>
+                                <td>
+                                    <i class="fa fa-info-circle"></i>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td> الاسم </td>
+                                <td>  الهاتف </td>
+                                <td> البريد الالكتروني </td>
+                                <td> عددالطلبات </td>
+                                <td>
+                                    <i class="fa fa-info-circle"></i>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model.Drivers)
+                            {
+                                <tr>
+                                    <td> @item.FirstName @item.LastName </td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.Email</td>                                    
+                                    <td> @item.Orders.Count </td>
+                                    <td>
+                                        <a target="_blank" href="~/Drivers/Details/@(item.ID)" class="btn btn-info">
+                                            <i class="fa fa-info-circle "></i>
+                                            تفاصيل
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+

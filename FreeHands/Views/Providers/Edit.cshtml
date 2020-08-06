@@ -1,0 +1,201 @@
+﻿@model FreeHands.Models.Provider
+@using FreeHands.Models
+@{
+    ViewBag.Title = "تعديل مقدم الخدمة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ <!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="container text-center">
+            <a href="~/Providers/Details/@(Model.ID)" class="btn btn-info">
+                <i class="fa fa-info"></i>
+                تفاصيل
+            </a>
+        </div>
+        <br />
+        <form method="post" action="~/Providers/Edit" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ID",Model.ID)
+            @Html.Hidden("Token", Model.Token)
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control",required= "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> الاسم الاول </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> الاسم الاخير </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.TradeName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> الاسم التجاري  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> البريد الالكتروني </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> كلمة السر</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> الهاتف</label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Lat, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> خط الطول </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Log, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> دائرة العرض </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> العنوان </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.Currency, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> العملة </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.DropDownList("Country_ID", new SelectList(new DB().Countries, "ID", "Name", Model.Country_ID), new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label">الدولة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.DropDownList("City_ID", new SelectList(new DB().Cities, "ID", "Name", Model.City_ID), new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-2 col-form-label">المدينة  </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    @Html.EditorFor(model => model.KnownNumber, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> الرقم المعلوم </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <label class="switch">
+                        @if (Model.AllowVisa)
+                        {
+                            <input type="checkbox" checked value="true" name="AllowVisa">
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="true" name="AllowVisa">
+                        }
+
+
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> الدفع الالكتروني </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <label class="switch">
+                        @if (Model.IsAvaiable)
+                        {
+                            <input type="checkbox" checked value="true" name="IsAvaiable">
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="true" name="IsAvaiable">
+                        }
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> هو متاح </label>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <label class="switch">
+                        @if (Model.IsExcelent)
+                        {
+                            <input type="checkbox" checked value="true" name="IsExcelent">
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="true" name="IsExcelent">
+                        }
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <label for="" class="col-sm-2 col-form-label"> هو ممتاز </label>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" name="Photo">
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> صورة مقدم الخدمة </label>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" name="IdentityPhoto">
+                </div>
+                <label for="" class="col-sm-4 col-form-label"> صورة تحقيق الهوية </label>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <input class="btn btn-success" type="submit" value="حفظ">
+                </div>
+            </div>
+        </form>
+        @if (ViewBag.error != null)
+        {
+            <span style="color:red">@ViewBag.error</span>
+        }
+    </section>
+</section>
+<script>
+    $(document).ready(function(){
+          $("#Country_ID").change(function(){
+              $.get("/Company/GetCities", { CountryID: $("#Country_ID").val() }, function (data) {
+                  $("#City_ID").empty();
+                  $.each(data, function (index, row) {
+                      $("#City_ID").append("<option value='" + row.ID + "'>" + row.Name + "</option>");
+                  });
+              });
+           });
+        });
+</script>
